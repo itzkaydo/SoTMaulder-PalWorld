@@ -8,7 +8,7 @@ namespace DX11_Base {
 	{
 	public:
 		ImColor dbg_RAINBOW{};				//	RAINBOW THEME COLORS
-		bool dbg_RAINBOW_THEME = TRUE;		//	RAINBOW THEME BOOLEAN
+		bool dbg_RAINBOW_THEME = FALSE;		//	RAINBOW THEME BOOLEAN
 		float sOpacity = 0.80;				//	Opacity for SunShade Window
 		bool dbg_ALERTS = TRUE;
 

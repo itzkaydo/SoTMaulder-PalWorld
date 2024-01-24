@@ -22,6 +22,7 @@ public:
 	bool IsInfinAmmo = false;
 	bool IsMuteki = false;
 	bool IsAdmin = true;
+	bool IsRevive = false;
 
 	//����
 	float SpeedModiflers = 1.0f;

@@ -35,9 +35,20 @@ namespace DX11_Base {
 
             //	STYLE PROPERTIES
             style.WindowTitleAlign = ImVec2(0.5f, 0.5f);
+            style.WindowPadding = ImVec2(15, 15);
+            style.WindowRounding = 5.0f;
+            style.FramePadding = ImVec2(5, 5);
+            style.FrameRounding = 4.0f;
+            style.ItemSpacing = ImVec2(12, 8);
+            style.ItemInnerSpacing = ImVec2(8, 6);
+            style.IndentSpacing = 25.0f;
+            style.ScrollbarSize = 15.0f;
+            style.ScrollbarRounding = 9.0f;
+            style.GrabMinSize = 5.0f;
+            style.GrabRounding = 3.0f;
 
             //  Base ImGui Styling , Aplying a custyom style is left up to you.
-            ImGui::StyleColorsClassic();
+            ImGui::StyleColorsDark();
 
             /// EXAMPLE COLOR 
             //colors[ImGuiCol_FrameBg] = ImVec4(0, 0, 0, 0);
@@ -52,6 +63,40 @@ namespace DX11_Base {
             }
             else {
                 /// YOUR DEFAULT STYLE PROPERTIES HERE
+                colors[ImGuiCol_Text] = ImVec4(0.80f, 0.80f, 0.83f, 1.00f);
+                colors[ImGuiCol_TextDisabled] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
+                colors[ImGuiCol_WindowBg] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
+                colors[ImGuiCol_PopupBg] = ImVec4(0.07f, 0.07f, 0.09f, 1.00f);
+                colors[ImGuiCol_Border] = ImVec4(0.80f, 0.80f, 0.83f, 0.88f);
+                colors[ImGuiCol_BorderShadow] = ImVec4(0.92f, 0.91f, 0.88f, 0.00f);
+                colors[ImGuiCol_FrameBg] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
+                colors[ImGuiCol_FrameBgHovered] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
+                colors[ImGuiCol_FrameBgActive] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
+                colors[ImGuiCol_TitleBg] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
+                colors[ImGuiCol_TitleBgCollapsed] = ImVec4(1.00f, 0.98f, 0.95f, 0.75f);
+                colors[ImGuiCol_TitleBgActive] = ImVec4(0.07f, 0.07f, 0.09f, 1.00f);
+                colors[ImGuiCol_MenuBarBg] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
+                colors[ImGuiCol_ScrollbarBg] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
+                colors[ImGuiCol_ScrollbarGrab] = ImVec4(0.80f, 0.80f, 0.83f, 0.31f);
+                colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
+                colors[ImGuiCol_ScrollbarGrabActive] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
+                colors[ImGuiCol_CheckMark] = ImVec4(0.80f, 0.80f, 0.83f, 0.31f);
+                colors[ImGuiCol_SliderGrab] = ImVec4(0.80f, 0.80f, 0.83f, 0.31f);
+                colors[ImGuiCol_SliderGrabActive] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
+                colors[ImGuiCol_Button] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
+                colors[ImGuiCol_ButtonHovered] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
+                colors[ImGuiCol_ButtonActive] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
+                colors[ImGuiCol_Header] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
+                colors[ImGuiCol_HeaderHovered] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
+                colors[ImGuiCol_HeaderActive] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
+                colors[ImGuiCol_ResizeGrip] = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
+                colors[ImGuiCol_ResizeGripHovered] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
+                colors[ImGuiCol_ResizeGripActive] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
+                colors[ImGuiCol_PlotLines] = ImVec4(0.40f, 0.39f, 0.38f, 0.63f);
+                colors[ImGuiCol_PlotLinesHovered] = ImVec4(0.25f, 1.00f, 0.00f, 1.00f);
+                colors[ImGuiCol_PlotHistogram] = ImVec4(0.40f, 0.39f, 0.38f, 0.63f);
+                colors[ImGuiCol_PlotHistogramHovered] = ImVec4(0.25f, 1.00f, 0.00f, 1.00f);
+                colors[ImGuiCol_TextSelectedBg] = ImVec4(0.25f, 1.00f, 0.00f, 0.43f);
             }
         }
     }
@@ -68,6 +113,10 @@ namespace DX11_Base {
             ImGui::Checkbox("DefenseHack", &Config.IsDefuseModiler);
 
             ImGui::Checkbox("InfStamina", &Config.IsInfStamina);
+
+            ImGui::Checkbox("MuteKiGodmode", &Config.IsMuteki);
+
+            ImGui::Checkbox("Revive", &Config.IsRevive);
 
             if (ImGui::Button("ToggleInfAmmo", ImVec2(ImGui::GetWindowContentRegionWidth() - 3, 20)))
             {
@@ -100,7 +149,7 @@ namespace DX11_Base {
             //�����õİ�
             //Config.GetPalPlayerCharacter()->GetPalPlayerController()->GetPalPlayerState()->RequestSpawnMonsterForPlayer(name, 5, 1);
             ImGui::Checkbox("SafeTeleport", &Config.IsSafe);
-            if (ImGui::Button("ExploitTP", ImVec2(ImGui::GetWindowContentRegionWidth() - 3, 20)))
+            if (ImGui::Button("Tele To Spawn", ImVec2(ImGui::GetWindowContentRegionWidth() - 3, 20)))
             {
                 SDK::APalPlayerCharacter* p_appc = Config.GetPalPlayerCharacter();
                 if (p_appc != NULL)
@@ -123,7 +172,7 @@ namespace DX11_Base {
                 }
 
             }
-            if (ImGui::Button("ExploitFly", ImVec2(ImGui::GetWindowContentRegionWidth() - 3, 20)))
+            if (ImGui::Button("EnableFly", ImVec2(ImGui::GetWindowContentRegionWidth() - 3, 20)))
             {
                 ExploitFly(true);
             }
@@ -131,7 +180,7 @@ namespace DX11_Base {
             {
                 ExploitFly(false);
             }
-            if (ImGui::Button("DeleteSelf", ImVec2(ImGui::GetWindowContentRegionWidth() - 3, 20)))
+            /*if (ImGui::Button("DeleteSelf", ImVec2(ImGui::GetWindowContentRegionWidth() - 3, 20)))
             {
                 SDK::APalPlayerCharacter* p_appc = Config.GetPalPlayerCharacter();
                 if (p_appc != NULL)
@@ -144,7 +193,7 @@ namespace DX11_Base {
                         }
                     }
                 }
-            }
+            }*/
             if (ImGui::Button("GodHealth", ImVec2(ImGui::GetWindowContentRegionWidth() - 3, 20)))
             {
                 SDK::APalPlayerCharacter* p_appc = Config.GetPalPlayerCharacter();
@@ -175,6 +224,39 @@ namespace DX11_Base {
                     }
                 }
             }
+            //Give x2 first item in inventory
+            if (ImGui::Button("Give x2 first item", ImVec2(ImGui::GetWindowContentRegionWidth() - 3, 20)))
+            {
+                SDK::APalPlayerCharacter* p_appc = Config.GetPalPlayerCharacter();
+                if (p_appc != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.GetPalPlayerCharacter()->GetPalPlayerController()->GetPalPlayerState() != NULL)
+                        {
+                            SDK::UPalPlayerInventoryData* InventoryData = Config.GetPalPlayerCharacter()->GetPalPlayerController()->GetPalPlayerState()->GetInventoryData();
+                            if (InventoryData != NULL) {
+                                SDK::UPalItemContainerMultiHelper* InventoryMultiHelper = InventoryData->InventoryMultiHelper;
+                                if (InventoryMultiHelper != NULL) {
+                                    SDK::TArray<class SDK::UPalItemContainer*> Containers = InventoryMultiHelper->Containers;
+                                    if (Containers.Num() == 0) {
+                                        return;
+                                    }
+
+                                    SDK::UPalItemSlot* FirstSlot = Containers[0]->Get(0);
+
+                                    if (FirstSlot != NULL)
+                                    {
+                                        SDK::FPalItemId FirstItemId = FirstSlot->GetItemId();
+                                        int32 StackCount = FirstSlot->GetStackCount();
+                                        InventoryData->RequestAddItem(FirstItemId.StaticId, StackCount * 2, true);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
         void TABGameBreaking()
         {
@@ -197,6 +279,7 @@ namespace DX11_Base {
         {
             ImGui::Text("SoTMaulder Menu");
             ImGui::Text("Version: v1.7");
+            ImGui::Text("Credits to: bluesword007");
 
             ImGui::Spacing();
             ImGui::Separator();
@@ -261,7 +344,7 @@ namespace DX11_Base {
                Tabs::TABPlayer();
                ImGui::EndTabItem();
            }
-          if (ImGui::BeginTabItem("EXPLOIT"))
+          if (ImGui::BeginTabItem("Exploits"))
           {
               Tabs::TABExploit();
               ImGui::EndTabItem();
@@ -271,7 +354,7 @@ namespace DX11_Base {
               Tabs::TABGameBreaking();
               ImGui::EndTabItem();
           }
-          if (ImGui::BeginTabItem("CONFIG"))
+          if (ImGui::BeginTabItem("Info"))
           {
               Tabs::TABConfig();
               ImGui::EndTabItem();
@@ -340,6 +423,13 @@ namespace DX11_Base {
                 Config.GetUWorld()->PersistentLevel->WorldSettings->TimeDilation = Config.SpeedModiflers;
             }
         }
+        if (Config.GetPalPlayerCharacter() != NULL)
+        {
+            if (Config.GetPalPlayerCharacter()->CharacterParameterComponent != NULL)
+            {
+                Config.GetPalPlayerCharacter()->CharacterParameterComponent->bIsEnableMuteki = Config.IsMuteki;
+            }
+        }
         if (Config.IsAttackModiler)
         {
             if (Config.GetPalPlayerCharacter() != NULL && Config.GetPalPlayerCharacter()->CharacterParameterComponent->AttackUp != Config.DamageUp)
@@ -367,6 +457,16 @@ namespace DX11_Base {
                 if (Config.GetPalPlayerCharacter()->CharacterParameterComponent != NULL)
                 {
                     Config.GetPalPlayerCharacter()->CharacterParameterComponent->ResetSP();
+                }
+            }
+        }
+        if (Config.IsRevive)
+        {
+            if (Config.GetPalPlayerCharacter() != NULL)
+            {
+                if (Config.GetPalPlayerCharacter()->CharacterParameterComponent != NULL)
+                {
+                    Config.GetPalPlayerCharacter()->CharacterParameterComponent->ResetDyingHP();
                 }
             }
         }
