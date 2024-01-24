@@ -6,8 +6,18 @@ config Config;
 Tick TickFunc;
 Tick OldTickFunc;
 
+GetAllPlayer GetAllPlayerFunc;
+GetAllPlayer OldGetAllPlayerFunc;
 
-bool DetourTick(SDK::APalPlayerCharacter* m_this,float DeltaSecond)
+void DetourPlayers(SDK::UPalCharacterImportanceManager* i_this, SDK::TArray<SDK::APalCharacter*>* OutArray)
+{
+    if (i_this->PlayerList.IsValid())
+    {
+        Config.AllPlayers = i_this->PlayerList_ForOutsideGet;
+    }
+    return OldGetAllPlayerFunc(i_this, OutArray);
+}
+bool DetourTick(SDK::APalPlayerCharacter* m_this, float DeltaSecond)
 {
     if (m_this->GetPalPlayerController() != NULL)
     {
@@ -16,7 +26,7 @@ bool DetourTick(SDK::APalPlayerCharacter* m_this,float DeltaSecond)
             Config.localPlayer = m_this;
         }
     }
-        return OldTickFunc(m_this, DeltaSecond);
+    return OldTickFunc(m_this, DeltaSecond);
 }
 SDK::UWorld* config::GetUWorld()
 {
@@ -39,12 +49,22 @@ SDK::APalPlayerCharacter* config::GetPalPlayerCharacter()
     return nullptr;
 }
 
+SDK::TArray<SDK::APalPlayerCharacter*> config::GetTAllPlayers()
+{
+    if (Config.AllPlayers.IsValid())
+    {
+        return Config.AllPlayers;
+    }
+    return NULL;
+}
+
 void config::Init()
 {
-    //����IsAdjustLocation��������
     Config.ClientBase = (DWORD64)GetModuleHandleA("PalWorld-Win64-Shipping.exe");
+
     TickFunc = (Tick)(Config.ClientBase + Config.offset_Tick);
+    GetAllPlayerFunc = (GetAllPlayer)(Config.ClientBase + Config.offset_GetAllPlayers);
 
     MH_CreateHook(TickFunc, DetourTick, reinterpret_cast<void**>(&OldTickFunc));
-
+    MH_CreateHook(GetAllPlayerFunc, DetourPlayers, reinterpret_cast<void**>(&OldGetAllPlayerFunc));
 }

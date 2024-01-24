@@ -3,14 +3,16 @@
 
 void ESP()
 {
+	/**
 	if (Config.GetPalPlayerCharacter() != NULL)
 	{
 		if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
 		{
 
-			DrawUActorComponent(Config.GetPalPlayerCharacter()->BlueprintCreatedComponents, ImColor(128, 0, 0));
+				DrawUActorComponent(Config.GetPalPlayerCharacter()->BlueprintCreatedComponents, ImColor(128, 0, 0));
 		}
 	}
+	**/
 }
 void DrawUActorComponent(SDK::TArray<SDK::UActorComponent*> Comps, ImColor color)
 {
