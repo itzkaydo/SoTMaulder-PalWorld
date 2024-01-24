@@ -1,6 +1,7 @@
 #pragma once
 #include <Windows.h>
 #include "libs/utils/memory.h"
+#include <map>
 #include "SDK.hpp"
 
 typedef bool(*Tick)(SDK::APalPlayerCharacter* m_this,float DeltaSecond);
@@ -14,7 +15,7 @@ public:
 	DWORD64 offset_Tick = 0x2AB44D0;
 	DWORD64 offset_GetAllPlayers = 0x2962330;// UPalCharacterImportanceManager::GetAllPlayer
 	//�˵��ж�
-	bool IsESP = true;
+	bool IsESP = false;
 	bool IsAimbot = false;
 	bool IsSpeedHack = false;
 	bool IsAttackModiler = false;
@@ -33,10 +34,15 @@ public:
 	int DefuseUp = 0;
 	int EXP = 0;
 	int Item = 0;
+	int PalRank = 0;
 	int MaxWeight = 9999999;
 	float Pos[3] = { 0,0,0 };
+	char ItemName[255];
+	char PalName[255];
+	int PalLvL = 1;
 	SDK::APalPlayerCharacter* localPlayer = NULL;
 	SDK::TArray<SDK::APalPlayerCharacter*> AllPlayers = {};
+	SDK::UPalCharacterImportanceManager* UCIM = NULL;
 	SDK::UObject* WorldContextObject = NULL;
 	
 	//����
