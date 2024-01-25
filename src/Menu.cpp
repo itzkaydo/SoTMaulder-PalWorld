@@ -2,6 +2,7 @@
 #include "../include/Menu.hpp"
 #include "SDK.hpp"
 #include "config.h"
+#include "names.h"
 
 SDK::FPalDebugOtomoPalInfo palinfo = SDK::FPalDebugOtomoPalInfo();
 SDK::TArray<SDK::EPalWazaID> EA = { 0U };
@@ -213,12 +214,33 @@ namespace DX11_Base {
         }
         void TABExploit()
         {
+            static ImGuiComboFlags flags = 0;
+            static int itmSelecteditem = 0;
+            static int palSelecteditem = 0;
+            // Pass in the preview value visible before opening the combo (it could technically be different contents or not pulled from items[])
+            const char* combo_preview_Items = ItemNames[itmSelecteditem];
+            const char* combo_preview_Pal = PalNames[palSelecteditem];
+
             //�����õİ�
             //Config.GetPalPlayerCharacter()->GetPalPlayerController()->GetPalPlayerState()->RequestSpawnMonsterForPlayer(name, 5, 1);
             ImGui::Checkbox("SafeTeleport", &Config.IsSafe);
             ImGui::InputFloat3("Pos:", Config.Pos);
             ImGui::InputInt("EXP:", &Config.EXP);
-            ImGui::InputText("ItemName", Config.ItemName, sizeof(Config.ItemName));
+            if (ImGui::BeginCombo("Item Name", combo_preview_Items, flags))
+            {
+                for (int n = 0; n < IM_ARRAYSIZE(ItemNames); n++)
+                {
+                    const bool is_selected = (itmSelecteditem == n);
+                    if (ImGui::Selectable(ItemNames[n], is_selected))
+                        itmSelecteditem = n;
+
+                    // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
+                    if (is_selected)
+                        ImGui::SetItemDefaultFocus();
+                }
+                ImGui::EndCombo();
+            }
+            //ImGui::InputText("ItemName", Config.ItemName, sizeof(Config.ItemName));
             ImGui::InputInt("ItemNum", &Config.Item);
             if (ImGui::Button("Give item", ImVec2(ImGui::GetWindowContentRegionWidth() - 3, 20)))
             {
@@ -236,14 +258,28 @@ namespace DX11_Base {
                                 if (Config.ItemName != NULL)
                                 {
                                     g_Console->printdbg("\n\n[+] ItemName: %s [+]\n\n", g_Console->color.green, Config.ItemName);
-                                    AddItem(InventoryData, Config.ItemName, Config.Item);
+                                    AddItem(InventoryData, (char*)combo_preview_Items, Config.Item);
                                 }
                             }
                         }
                     }
                 }
             }
-            ImGui::InputText("PalName", Config.PalName, sizeof(Config.PalName));
+            if (ImGui::BeginCombo("Pal Name", combo_preview_Pal, flags))
+            {
+                for (int n = 0; n < IM_ARRAYSIZE(PalNames); n++)
+                {
+                    const bool is_selected = (palSelecteditem == n);
+                    if (ImGui::Selectable(PalNames[n], is_selected))
+                        palSelecteditem = n;
+
+                    // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
+                    if (is_selected)
+                        ImGui::SetItemDefaultFocus();
+                }
+                ImGui::EndCombo();
+            }
+            //ImGui::InputText("PalName", Config.PalName, sizeof(Config.PalName));
             ImGui::InputInt("PalRank", &Config.PalRank);
             ImGui::InputInt("Pallvl", &Config.PalLvL);
             if (ImGui::Button("Spawn Pal", ImVec2(ImGui::GetWindowContentRegionWidth() - 3, 20)))
@@ -257,7 +293,7 @@ namespace DX11_Base {
                             if (Config.PalName != NULL)
                             {
                                 g_Console->printdbg("\n\n[+] PalName: %s [+]\n\n", g_Console->color.green, Config.ItemName);
-                                SpawnPal(Config.PalName, Config.PalRank, Config.PalLvL);
+                                SpawnPal((char*)combo_preview_Pal, Config.PalRank, Config.PalLvL);
                             }
                         }
                     }
