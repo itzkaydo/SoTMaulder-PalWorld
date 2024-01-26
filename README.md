@@ -25,7 +25,7 @@ Hacking in the Exploit tab
 # AOBS
 > GObjects: `48 8B 05 ? ? ? ? 48 8B 0C C8 4C 8D 04 D1 EB 03`  
 > FNames: `48 8D 05 ? ? ? ? EB 13 48 8D 0D ? ? ? ? E8 ? ? ? ? C6 05 ? ? ? ? ? 0F 10`  
-> GWorld: `48 8B 1D ?? ?? ?? ?? 48 85 DB 74 33 41 B0`
+> GWorld: `48 8B 1D ?? ?? ?? ?? 48 85 DB 74 33 41 B0`  
 > Processs Event: `40 55 56 57 41 54 41 55 41 56 41 57 48 81 EC 10 01 ? ? 48 8D`
 
 ## External Library Credits
