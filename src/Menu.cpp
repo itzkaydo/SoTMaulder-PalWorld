@@ -70,6 +70,7 @@ void AnyWhereTP(SDK::FVector& vector, bool IsSafe)
     }
     return;
 }
+
 void ExploitFly(bool IsFly)
 {
     SDK::APalPlayerCharacter* p_appc = Config.GetPalPlayerCharacter();
@@ -102,7 +103,6 @@ namespace DX11_Base {
             ImVec4* colors = ImGui::GetStyle().Colors;
 
             //	STYLE PROPERTIES
-            style.WindowTitleAlign = ImVec2(0.5f, 0.5f);
             style.WindowPadding = ImVec2(15, 15);
             style.WindowRounding = 5.0f;
             style.FramePadding = ImVec2(5, 5);
@@ -165,6 +165,9 @@ namespace DX11_Base {
                 colors[ImGuiCol_PlotHistogram] = ImVec4(0.40f, 0.39f, 0.38f, 0.63f);
                 colors[ImGuiCol_PlotHistogramHovered] = ImVec4(0.25f, 1.00f, 0.00f, 1.00f);
                 colors[ImGuiCol_TextSelectedBg] = ImVec4(0.25f, 1.00f, 0.00f, 0.43f);
+                colors[ImGuiCol_Tab] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
+                colors[ImGuiCol_TabActive] = ImVec4(0.80f, 0.80f, 0.83f, 0.31f);
+                colors[ImGuiCol_TabHovered] = ImVec4(0.80f, 0.80f, 0.83f, 0.31f);
             }
         }
     }
@@ -186,7 +189,7 @@ namespace DX11_Base {
 
             ImGui::Checkbox("Revive", &Config.IsRevive);
 
-            if (ImGui::Button("ToggleInfAmmo", ImVec2(ImGui::GetWindowContentRegionWidth() - 3, 20)))
+            if (ImGui::Button("ToggleInfAmmo", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
             {
                 if (Config.GetPalPlayerCharacter()->ShooterComponent != NULL && Config.GetPalPlayerCharacter()->ShooterComponent->CanShoot())
                 {
@@ -203,7 +206,7 @@ namespace DX11_Base {
             ImGui::SliderInt("defenseModifilers", &Config.DefuseUp, 0, 200000);
 
             //��ť����һ��
-            if (ImGui::Button("PrintPlayerAddr", ImVec2(ImGui::GetWindowContentRegionWidth() - 3, 20)))
+            if (ImGui::Button("PrintPlayerAddr", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
             {
                 SDK::APalPlayerCharacter* p_appc = Config.GetPalPlayerCharacter();
                 if (p_appc != NULL)
@@ -226,6 +229,23 @@ namespace DX11_Base {
             ImGui::Checkbox("SafeTeleport", &Config.IsSafe);
             ImGui::InputFloat3("Pos:", Config.Pos);
             ImGui::InputInt("EXP:", &Config.EXP);
+            if (ImGui::Button("Give exp", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                SDK::APalPlayerCharacter* p_appc = Config.GetPalPlayerCharacter();
+                if (p_appc != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.GetPalPlayerCharacter()->GetPalPlayerController()->GetPalPlayerState() != NULL)
+                        {
+                            if (Config.EXP >= 0)
+                            {
+                                Config.GetPalPlayerCharacter()->GetPalPlayerController()->GetPalPlayerState()->GrantExpForParty(Config.EXP);
+                            }
+                        }
+                    }
+                }
+            }
             if (ImGui::BeginCombo("Item Name", combo_preview_Items, flags))
             {
                 for (int n = 0; n < IM_ARRAYSIZE(ItemNames); n++)
@@ -242,7 +262,7 @@ namespace DX11_Base {
             }
             //ImGui::InputText("ItemName", Config.ItemName, sizeof(Config.ItemName));
             ImGui::InputInt("ItemNum", &Config.Item);
-            if (ImGui::Button("Give item", ImVec2(ImGui::GetWindowContentRegionWidth() - 3, 20)))
+            if (ImGui::Button("Give item", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
             {
                 SDK::APalPlayerCharacter* p_appc = Config.GetPalPlayerCharacter();
                 if (p_appc != NULL)
@@ -265,7 +285,7 @@ namespace DX11_Base {
                     }
                 }
             }
-            if (ImGui::BeginCombo("Pal Name", combo_preview_Pal, flags))
+            /*if (ImGui::BeginCombo("Pal Name", combo_preview_Pal, flags))
             {
                 for (int n = 0; n < IM_ARRAYSIZE(PalNames); n++)
                 {
@@ -282,7 +302,7 @@ namespace DX11_Base {
             //ImGui::InputText("PalName", Config.PalName, sizeof(Config.PalName));
             ImGui::InputInt("PalRank", &Config.PalRank);
             ImGui::InputInt("Pallvl", &Config.PalLvL);
-            if (ImGui::Button("Spawn Pal", ImVec2(ImGui::GetWindowContentRegionWidth() - 3, 20)))
+            if (ImGui::Button("Spawn Pal", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
             {
                 if (Config.GetPalPlayerCharacter() != NULL)
                 {
@@ -298,8 +318,8 @@ namespace DX11_Base {
                         }
                     }
                 }
-            }
-            if (ImGui::Button("Tele To Spawn", ImVec2(ImGui::GetWindowContentRegionWidth() - 3, 20)))
+            }*/
+            if (ImGui::Button("Tele To Spawn", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
             {
                 SDK::APalPlayerCharacter* p_appc = Config.GetPalPlayerCharacter();
                 if (p_appc != NULL)
@@ -322,7 +342,7 @@ namespace DX11_Base {
                 }
 
             }
-            if (ImGui::Button("AnywhereTP", ImVec2(ImGui::GetWindowContentRegionWidth() - 3, 20)))
+            if (ImGui::Button("AnywhereTP", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
             {
                 if (Config.GetPalPlayerCharacter() != NULL)
                 {
@@ -336,12 +356,12 @@ namespace DX11_Base {
                     }
                 }
             }
-            if (ImGui::Button("ToggleFly", ImVec2(ImGui::GetWindowContentRegionWidth() - 3, 20)))
+            if (ImGui::Button("ToggleFly", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
             {
                 Config.IsToggledFly = !Config.IsToggledFly;
                 ExploitFly(Config.IsToggledFly);
             }
-            /*if (ImGui::Button("DeleteSelf", ImVec2(ImGui::GetWindowContentRegionWidth() - 3, 20)))
+            /*if (ImGui::Button("DeleteSelf", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
             {
                 SDK::APalPlayerCharacter* p_appc = Config.GetPalPlayerCharacter();
                 if (p_appc != NULL)
@@ -355,7 +375,23 @@ namespace DX11_Base {
                     }
                 }
             }*/
-            if (ImGui::Button("GodHealth", ImVec2(ImGui::GetWindowContentRegionWidth() - 3, 20)))
+            if (ImGui::Button("NormalHealth", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                SDK::APalPlayerCharacter* p_appc = Config.GetPalPlayerCharacter();
+                if (p_appc != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.GetPalPlayerCharacter()->GetPalPlayerController()->GetPalPlayerState() != NULL)
+                        {
+                            SDK::FFixedPoint fixpoint = SDK::FFixedPoint();
+                            fixpoint.Value = Config.GetPalPlayerCharacter()->CharacterParameterComponent->GetMaxHP().Value;
+                            Config.GetPalPlayerCharacter()->ReviveCharacter_ToServer(fixpoint);
+                        }
+                    }
+                }
+            }
+            if (ImGui::Button("GodHealth", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
             {
                 SDK::APalPlayerCharacter* p_appc = Config.GetPalPlayerCharacter();
                 if (p_appc != NULL)
@@ -371,7 +407,7 @@ namespace DX11_Base {
                     }
                 }
             }
-            if (ImGui::Button("MaxWeight", ImVec2(ImGui::GetWindowContentRegionWidth() - 3, 20)))
+            if (ImGui::Button("MaxWeight", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
             {
                 SDK::APalPlayerCharacter* p_appc = Config.GetPalPlayerCharacter();
                 if (p_appc != NULL)
@@ -385,29 +421,11 @@ namespace DX11_Base {
                     }
                 }
             }
-            //Credit WoodgamerHD
-            if (ImGui::Button("Give exp", ImVec2(ImGui::GetWindowContentRegionWidth() - 3, 20)))
-            {
-                SDK::APalPlayerCharacter* p_appc = Config.GetPalPlayerCharacter();
-                if (p_appc != NULL)
-                {
-                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
-                    {
-                        if (Config.GetPalPlayerCharacter()->GetPalPlayerController()->GetPalPlayerState() != NULL)
-                        {
-                            if (Config.EXP >= 0)
-                            {
-                                Config.GetPalPlayerCharacter()->GetPalPlayerController()->GetPalPlayerState()->GrantExpForParty(Config.EXP);
-                            }
-                        }
-                    }
-                }
-            }
         }
 
         void TABGameBreaking()
         {
-            if (ImGui::Button("Max Level<50>", ImVec2(ImGui::GetWindowContentRegionWidth() - 3, 20)))
+            if (ImGui::Button("Max Level<50>", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
             {
                 SDK::APalPlayerCharacter* p_appc = Config.GetPalPlayerCharacter();
                 if (p_appc != NULL)
@@ -421,6 +439,37 @@ namespace DX11_Base {
                     }
                 }
             }
+            if (ImGui::Button("All Effigies", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                SDK::APalPlayerCharacter* pPalCharacter = Config.GetPalPlayerCharacter();
+                if (!pPalCharacter)
+                    return;
+
+                SDK::UWorld* world = Config.GetUWorld();
+                if (!world)
+                    return;
+
+                SDK::TUObjectArray* objects = world->GObjects;
+
+                for (int i = 0; i < objects->NumElements; ++i) {
+                    SDK::UObject* object = objects->GetByIndex(i);
+
+                    if (!object) {
+                        continue;
+                    }
+
+                    if (!object->IsA(SDK::APalLevelObjectRelic::StaticClass())) {
+                        continue;
+                    }
+
+                    SDK::APalLevelObjectObtainable* relic = (SDK::APalLevelObjectObtainable*)object;
+                    if (!relic) {
+                        continue;
+                    }
+
+                    ((SDK::APalPlayerState*)pPalCharacter->PlayerState)->RequestObtainLevelObject_ToServer(relic);
+                }
+            }
          }
         void TABConfig()
         {
@@ -431,7 +480,7 @@ namespace DX11_Base {
             ImGui::Spacing();
             ImGui::Separator();
             ImGui::Spacing();
-            if (ImGui::Button("Unload DLL", ImVec2(ImGui::GetWindowContentRegionWidth() - 3, 20))) {
+            if (ImGui::Button("Unload DLL", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20))) {
 #if DEBUG
                 g_Console->printdbg("\n\n[+] Unloading Initialized [+]\n\n", g_Console->color.red);
 
