@@ -263,7 +263,6 @@ namespace DX11_Base {
                         SDK::FVector PlayerLocation = p_appc->K2_GetActorLocation();
                         std::string MyLocation = std::format("X: {} | Y: {} | Z: {}", PlayerLocation.X, PlayerLocation.Y, PlayerLocation.Z);
                         g_Console->printdbg(MyLocation.c_str(), g_Console->color.green, p_appc);
-                        ImGui::Text(MyLocation.c_str());
                     }
                 }
             }
