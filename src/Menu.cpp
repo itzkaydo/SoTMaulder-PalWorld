@@ -515,7 +515,7 @@ namespace DX11_Base {
                 ImGui::PushID(item);
                 if (ImGui::Button(right_text.c_str()))
                 {
-                    SDK::UPalPlayerInventoryData* InventoryData = Config.GetPalPlayerCharacter()->GetPalPlayerController()->GetPalPlayerState()->GetInventoryData();
+                    SDK::UPalPlayerInventoryData* InventoryData = Config.GetPalPlayerCharacter()->GetPalPlayerController()->GetPalPlayerState()->GetInventoryData();//rebase
                     AddItem(InventoryData, (char*)left_text.c_str(), num_to_add);
                 }
                 ImGui::PopID();
