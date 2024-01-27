@@ -261,7 +261,7 @@ namespace DX11_Base {
                     if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
                     {
                         SDK::FVector PlayerLocation = p_appc->K2_GetActorLocation();
-                        std::string MyLocation = std::format("X: {} | Y: {} | Z: {}", PlayerLocation.X, PlayerLocation.Y, PlayerLocation.Z);
+                        std::string MyLocation = std::format("\nX: {} | Y: {} | Z: {}\n", PlayerLocation.X, PlayerLocation.Y, PlayerLocation.Z);
                         g_Console->printdbg(MyLocation.c_str(), g_Console->color.green, p_appc);
                     }
                 }
