@@ -252,6 +252,32 @@ namespace DX11_Base {
                     g_Console->printdbg("\n\n[+] APalPlayerCharacter: %x [+]\n\n", g_Console->color.green, p_appc);
                 }
             }
+
+            if (ImGui::Button("PrintCoords", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                SDK::APalPlayerCharacter* p_appc = Config.GetPalPlayerCharacter();
+                if (p_appc != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        SDK::FVector PlayerLocation = p_appc->K2_GetActorLocation();
+                        std::string MyLocation = std::format("X: {} | Y: {} | Z: {}", PlayerLocation.X, PlayerLocation.Y, PlayerLocation.Z);
+                        g_Console->printdbg(MyLocation.c_str(), g_Console->color.green, p_appc);
+                        ImGui::Text(MyLocation.c_str());
+                    }
+                }
+            }
+
+            SDK::APalPlayerCharacter* p_appc = Config.GetPalPlayerCharacter();
+            if (p_appc != NULL)
+            {
+                if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                {
+                    SDK::FVector PlayerLocation = p_appc->K2_GetActorLocation();
+                    std::string MyLocation = std::format("X: {} | Y: {} | Z: {}", PlayerLocation.X, PlayerLocation.Y, PlayerLocation.Z);
+                    ImGui::Text(MyLocation.c_str());
+                }
+            }
         }
         void TABExploit()
         {
@@ -259,6 +285,22 @@ namespace DX11_Base {
             //Config.GetPalPlayerCharacter()->GetPalPlayerController()->GetPalPlayerState()->RequestSpawnMonsterForPlayer(name, 5, 1);
             ImGui::Checkbox("SafeTeleport", &Config.IsSafe);
             ImGui::InputFloat3("Pos:", Config.Pos);
+
+            if (ImGui::Button("Coord TP", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.Pos != NULL)
+                        {
+                            SDK::FVector vector = { Config.Pos[0],Config.Pos[1],Config.Pos[2] };
+                            AnyWhereTP(vector, Config.IsSafe);
+                        }
+                    }
+                }
+            }
+
             ImGui::InputInt("EXP:", &Config.EXP);
             if (ImGui::Button("Give exp", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
             {
@@ -335,20 +377,6 @@ namespace DX11_Base {
                 }
 
             }
-            /*if (ImGui::Button("AnywhereTP", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
-            {
-                if (Config.GetPalPlayerCharacter() != NULL)
-                {
-                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
-                    {
-                        if (Config.Pos != NULL)
-                        {
-                            SDK::FVector vector = { Config.Pos[0],Config.Pos[1],Config.Pos[2] };
-                            AnyWhereTP(vector, Config.IsSafe);
-                        }
-                    }
-                }
-            }*/
 
             if (ImGui::Button("ToggleFly", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
             {
