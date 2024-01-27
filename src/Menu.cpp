@@ -2,7 +2,6 @@
 #include "../include/Menu.hpp"
 #include "SDK.hpp"
 #include "config.h"
-#include "names.h"
 #include <algorithm>
 
 
@@ -86,7 +85,7 @@ void SpawnPal(char* PalName, int rank, int lvl = 1)
     }
 }
 
-/*void AnyWhereTP(SDK::FVector& vector, bool IsSafe)
+void AnyWhereTP(SDK::FVector& vector, bool IsSafe)
 {
     if (!IsSafe)
     {
@@ -108,7 +107,7 @@ void SpawnPal(char* PalName, int rank, int lvl = 1)
         }
     }
     return;
-}*/
+}
 
 void ExploitFly(bool IsFly)
 {
@@ -256,13 +255,6 @@ namespace DX11_Base {
         }
         void TABExploit()
         {
-            static ImGuiComboFlags flags = 0;
-            static int itmSelecteditem = 0;
-            static int palSelecteditem = 0;
-            // Pass in the preview value visible before opening the combo (it could technically be different contents or not pulled from items[])
-            const char* combo_preview_Items = ItemNames[itmSelecteditem];
-            const char* combo_preview_Pal = PalNames[palSelecteditem];
-
             //�����õİ�
             //Config.GetPalPlayerCharacter()->GetPalPlayerController()->GetPalPlayerState()->RequestSpawnMonsterForPlayer(name, 5, 1);
             ImGui::Checkbox("SafeTeleport", &Config.IsSafe);
@@ -521,7 +513,68 @@ namespace DX11_Base {
                 ImGui::PopID();
             }
         }
+        void TABQuickTP()
+        {
+            if (ImGui::Button("Anubis", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.AnubisLocation != NULL)
+                        {
+                            SDK::FVector vector = { Config.AnubisLocation[0],Config.AnubisLocation[1],Config.AnubisLocation[2] };
+                            AnyWhereTP(vector, Config.IsSafe);
+                        }
+                    }
+                }
+            }
 
+            if (ImGui::Button("Frostallion", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.FrostallionLocation != NULL)
+                        {
+                            SDK::FVector vector = { Config.FrostallionLocation[0],Config.FrostallionLocation[1],Config.FrostallionLocation[2] };
+                            AnyWhereTP(vector, Config.IsSafe);
+                        }
+                    }
+                }
+            }
+
+            if (ImGui::Button("Jetdragon", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.JetragonLocation != NULL)
+                        {
+                            SDK::FVector vector = { Config.JetragonLocation[0],Config.JetragonLocation[1],Config.JetragonLocation[2] };
+                            AnyWhereTP(vector, Config.IsSafe);
+                        }
+                    }
+                }
+            }
+
+            if (ImGui::Button("Paladius", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.PaladiusLocation != NULL)
+                        {
+                            SDK::FVector vector = { Config.PaladiusLocation[0],Config.PaladiusLocation[1],Config.PaladiusLocation[2] };
+                            AnyWhereTP(vector, Config.IsSafe);
+                        }
+                    }
+                }
+            }
+        }
         void TABGameBreaking()
         {
             if (ImGui::Button("Max Level<50>", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
@@ -649,6 +702,11 @@ namespace DX11_Base {
           if (ImGui::BeginTabItem("Item Spawner"))
           {
               Tabs::TABItemSpawner();
+              ImGui::EndTabItem();
+          }
+          if (ImGui::BeginTabItem("Quick TP"))
+          {
+              Tabs::TABQuickTP();
               ImGui::EndTabItem();
           }
           if (ImGui::BeginTabItem("GameBreaking"))

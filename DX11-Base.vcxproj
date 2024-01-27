@@ -165,7 +165,6 @@
     <ClInclude Include="config.h" />
     <ClInclude Include="database.h" />
     <ClInclude Include="feature.h" />
-    <ClInclude Include="names.h" />
     <ClInclude Include="include\Console.hpp" />
     <ClInclude Include="include\D3D11Window.hpp" />
     <ClInclude Include="include\Game.hpp" />

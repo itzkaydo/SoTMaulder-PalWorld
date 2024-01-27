@@ -117,9 +117,6 @@
     <ClInclude Include="feature.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="names.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="database.h">
       <Filter>Header Files</Filter>
     </ClInclude>

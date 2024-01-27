@@ -14,9 +14,15 @@ class config
 {
 public:
 	DWORD64 ClientBase = 0;
-	DWORD64 offset_Tick = 0x2A9E9D0;
-	DWORD64 offset_AddStatus = 0x2B0E960; //UPalNetworkIndividualComponent::AddPlayerCharacterStatusPoint_ToServer
+	DWORD64 offset_Tick = 0x2AB1DC0;
+	DWORD64 offset_AddStatus = 0x7EA520; //UPalNetworkIndividualComponent::AddPlayerCharacterStatusPoint_ToServer
 	DWORD64 offset_CatchRate = 0x26E70C2; //APalCaptureJudgeObject::ChallengeCapture
+
+	//TP Locations
+	float AnubisLocation[3] = { -170269, 94163.7, -1527.83 };
+	float FrostallionLocation[3] = { 111978, -6394.85, 21940.2 };
+	float JetragonLocation[3] = { -270762, -205837, 3834.92 };
+	float PaladiusLocation[3] = { 187235, 349924, 2563.07 };
 
 	//�˵��ж�
 	bool IsESP = false;
