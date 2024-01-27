@@ -4,7 +4,6 @@
 #include "config.h"
 #include <algorithm>
 
-
 int InputTextCallback(ImGuiInputTextCallbackData* data) {
     char inputChar = data->EventChar;
     Config.Update(Config.inputTextBuffer);
@@ -218,7 +217,7 @@ namespace DX11_Base {
             //�л�����һ��
             ImGui::Checkbox("ESP", &Config.IsESP);
 
-            ImGui::Checkbox("ESP", &Config.isDebugESP);
+            ImGui::Checkbox("Debug ESP", &Config.isDebugESP);
 
             ImGui::Checkbox("SpeedHack", &Config.IsSpeedHack);
 
@@ -547,6 +546,8 @@ namespace DX11_Base {
         }
         void TABQuickTP()
         {
+            ImGui::InputText("BossName", Config.BossName, sizeof(Config.BossName));
+
             if (ImGui::Button("Anubis", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
             {
                 if (Config.GetPalPlayerCharacter() != NULL)
@@ -654,7 +655,7 @@ namespace DX11_Base {
                     ((SDK::APalPlayerState*)pPalCharacter->PlayerState)->RequestObtainLevelObject_ToServer(relic);
                 }
             }
-            /*if (ImGui::Button("Killaura", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            if (ImGui::Button("Killaura", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
             {
                 if (Config.GetPalPlayerCharacter() != NULL)
                 {
@@ -683,7 +684,7 @@ namespace DX11_Base {
                     }
                 }
             }
-         }*/
+         }
      
         void TABConfig()
         {
@@ -798,6 +799,26 @@ namespace DX11_Base {
 
     void Menu::Loops()
     {
+        if ((GetAsyncKeyState(VK_F2) & 1) && IsGameActive())
+        {
+            SDK::APalPlayerCharacter* p_appc = Config.GetPalPlayerCharacter();
+            if (p_appc != NULL)
+            {
+                if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController()->GetPalPlayerState() != NULL)
+                    {
+                        SDK::FVector PlayerLocation = p_appc->K2_GetActorLocation();
+                        float PosX = PlayerLocation.X;
+                        float PosY = PlayerLocation.Y;
+                        float PosZ = PlayerLocation.Z;
+
+                        Config.SaveLocation(Config.BossName, PosX, PosY, PosZ);
+                    }
+                }
+            }
+        }
+
         if ((GetAsyncKeyState(VK_F5) & 1))
         {
             SDK::APalPlayerCharacter* p_appc = Config.GetPalPlayerCharacter();

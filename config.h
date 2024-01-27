@@ -4,10 +4,33 @@
 #include <map>
 #include "SDK.hpp"
 #include "database.h"
+#include <iostream>
+#include <fstream>
 
 typedef bool(*Tick)(SDK::APalPlayerCharacter* m_this,float DeltaSecond);
 typedef void(*GetAllPlayer)(SDK::UPalCharacterImportanceManager* i_this, SDK::TArray<SDK::APalCharacter*>* OutArray);
 typedef void(*CatchRate)(SDK::APalCaptureJudgeObject* m_this);
+
+static bool IsGameActive()
+{
+	HWND foregroundWindow = GetForegroundWindow();
+	std::wstring windowName = L"Pal";
+
+	if (foregroundWindow) {
+		int length = GetWindowTextLength(foregroundWindow);
+		std::wstring windowTitle(length, L'\0');
+		GetWindowText(foregroundWindow, &windowTitle[0], length + 1);
+
+		windowTitle.erase(std::find_if(windowTitle.rbegin(), windowTitle.rend(), [](wchar_t ch) {
+			return !std::isspace(ch);
+			}).base(), windowTitle.end());
+
+		if (windowName == windowTitle) {
+			return true;
+		}
+	}
+	return false;
+}
 
 
 class config
@@ -24,6 +47,19 @@ public:
 	float JetragonLocation[3] = { -270762, -205837, 3834.92 };
 	float PaladiusLocation[3] = { 187235, 349924, 2563.07 };
 
+	static void SaveLocation(const std::string& bossName, float x, float y, float z) {
+		std::ofstream outFile("Location.txt", std::ios::app);
+
+		if (!outFile) {
+			std::cerr << "Failed to open Location.txt for writing." << std::endl;
+			return;
+		}
+
+		outFile << "Boss: " << bossName << " | X: " << x << " - Y: " << y << " - Z: " << z << std::endl;
+
+		outFile.close();
+	}
+
 	//�˵��ж�
 	bool IsESP = false;
 	bool IsAimbot = false;
@@ -39,6 +75,7 @@ public:
 	bool IsToggledFly = false;
 	bool isCatchRate = false;
 	bool isDebugESP = false;
+	char BossName[255];
 	float mDebugESPDistance = 5.0f;
 
 	//����
