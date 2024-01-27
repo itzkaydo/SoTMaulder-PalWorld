@@ -38,6 +38,8 @@ public:
 	bool IsRevive = false;
 	bool IsToggledFly = false;
 	bool isCatchRate = false;
+	bool isDebugESP = false;
+	float mDebugESPDistance = 5.0f;
 
 	//����
 	float SpeedModiflers = 1.0f;
@@ -52,7 +54,7 @@ public:
 	char ItemName[255];
 	char PalName[255];
 	char inputTextBuffer[255] = "";
-	static SDK::UWorld* gWorld;
+	SDK::UWorld* gWorld = nullptr;
 	int PalLvL = 1;
 	SDK::APalPlayerCharacter* localPlayer = NULL;
 	SDK::TArray<SDK::APalPlayerCharacter*> AllPlayers = {};
@@ -66,10 +68,13 @@ public:
 	static SDK::APalPlayerCharacter* GetPalPlayerCharacter();
 	static SDK::APalPlayerState* GetPalPlayerState();
 	static SDK::TArray<SDK::APalPlayerCharacter*> GetTAllPlayers();
+	static SDK::UPalPlayerInventoryData* GetInventoryComponent();
+	static SDK::APalWeaponBase* GetPlayerEquippedWeapon();
 	static bool	GetTAllPlayers(SDK::TArray<class SDK::APalCharacter*>* outResult);
 	static bool	GetTAllImpNPC(SDK::TArray<class SDK::APalCharacter*>* outResult);
 	static bool	GetTAllNPC(SDK::TArray<class SDK::APalCharacter*>* outResult);
 	static bool	GetTAllPals(SDK::TArray<class SDK::APalCharacter*>* outResult);
+	static bool GetAllActorsofType(SDK::UClass* mType, std::vector<SDK::AActor*>* outArray, bool bLoopAllLevels = false, bool bSkipLocalPlayer = false);
 	static void Init();;
 	static void Update(const char* filterText);
 	static const std::vector<std::string>& GetFilteredItems();

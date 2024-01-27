@@ -28,16 +28,46 @@ void ESP()
 		ImGui::GetBackgroundDrawList()->AddText(nullptr, 16, ImVec2(10, 10 + (i * 30)), ImColor(128, 0, 0), T[i]->GetFullName().c_str());
 }
 
-void entitiesESP() {
-	SDK::TArray<SDK::APalCharacter*> T = {};
-	Config.UCIM->GetAllPalCharacter(&T);
-	if (T.IsValid())
+void ESP_DEBUG(float mDist, ImVec4 color, UClass* mEntType)
+{
+	APalPlayerCharacter* pLocalPlayer = Config.GetPalPlayerCharacter();
+	if (!pLocalPlayer)
+		return;
+
+	APalPlayerController* pPlayerController = static_cast<APalPlayerController*>(pLocalPlayer->Controller);
+	if (!pPlayerController)
+		return;
+
+	std::vector<AActor*> actors;
+	if (!config::GetAllActorsofType(mEntType, &actors, true))
+		return;
+
+	auto draw = ImGui::GetWindowDrawList();
+
+	__int32 actorsCount = actors.size();
+	for (AActor* actor : actors)
 	{
-		for (int i = 0; i < T.Num(); i++) //NUM = 11
+		FVector actorLocation = actor->K2_GetActorLocation();
+		FVector localPlayerLocation = pLocalPlayer->K2_GetActorLocation();
+		float distantTo = pLocalPlayer->GetDistanceTo(actor);
+		if (distantTo > mDist)
+			continue;
+
+		FVector2D outScreen;
+		if (!pPlayerController->ProjectWorldLocationToScreen(actorLocation, &outScreen, true))
+			continue;
+
+		char data[0x256];
+		const char* StringData = "OBJECT: [%s]\nCLASS: [%s]\nINDEX: [%d]\nPOSITION: { %0.0f, %0.0f, %0.0f }\nDISTANCE: [%.0fm]";
+		if (distantTo >= 1000.f)
 		{
-			Config.GetPalPlayerCharacter()->GetPalPlayerController()->ProjectWorldLocationToScreen(SDK::FVector(T[i]->K2_GetActorLocation().X, T[i]->K2_GetActorLocation().Y, T[i]->K2_GetActorLocation().Z), &pokemonCOORD, true);
-			ImGui::GetBackgroundDrawList()->AddText(nullptr, 16, ImVec2(pokemonCOORD.X, pokemonCOORD.Y), ImColor(255, 255, 255), T[i]->GetName().c_str());
+			distantTo /= 1000.f;
+			StringData = "OBJECT: [%s]\nCLASS: [%s]\nINDEX: [%d]\nPOSITION: { %0.0f, %0.0f, %0.0f }\nDISTANCE: [%.0fkm]";
 		}
+		sprintf_s(data, StringData, actor->GetName().c_str(), actor->Class->GetFullName().c_str(), actorLocation.X, actorLocation.Y, actorLocation.Z, distantTo);
+
+		ImVec2 screen = ImVec2(static_cast<float>(outScreen.X), static_cast<float>(outScreen.Y));
+		draw->AddText(screen, ImColor(color), data);
 	}
 }
 

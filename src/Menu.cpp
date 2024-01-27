@@ -44,6 +44,7 @@ void ToggleCatchRate(bool catchrate) {
     }
 }
 
+
 void AddItem(SDK::UPalPlayerInventoryData* data, char* itemName, int count)
 {
     SDK::UKismetStringLibrary* lib = SDK::UKismetStringLibrary::GetDefaultObj();
@@ -215,6 +216,10 @@ namespace DX11_Base {
         {
 
             //�л�����һ��
+            ImGui::Checkbox("ESP", &Config.IsESP);
+
+            ImGui::Checkbox("ESP", &Config.isDebugESP);
+
             ImGui::Checkbox("SpeedHack", &Config.IsSpeedHack);
 
             ImGui::Checkbox("AttackHack", &Config.IsAttackModiler);
@@ -649,7 +654,36 @@ namespace DX11_Base {
                     ((SDK::APalPlayerState*)pPalCharacter->PlayerState)->RequestObtainLevelObject_ToServer(relic);
                 }
             }
-         }
+            /*if (ImGui::Button("Killaura", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.GetPalPlayerCharacter()->GetPalPlayerController()->GetPalPlayerState())
+                        {
+                            SDK::TArray<SDK::AActor*> T = Config.GetUWorld()->PersistentLevel->Actors;
+                            for (int i = 0; i < T.Num(); i++)
+                            {
+
+                                if (T[i] != NULL)
+                                {
+                                    if (T[i]->IsA(SDK::APalCharacter::StaticClass()))
+                                    {
+                                        SDK::APalCharacter* monster = (SDK::APalCharacter*)T[i];
+                                        if (monster->IsLocallyControlled())
+                                        {
+                                            continue;
+                                        }
+                                        Config.GetPalPlayerState()->SendDeath_ToServer(monster);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+         }*/
      
         void TABConfig()
         {
@@ -685,6 +719,9 @@ namespace DX11_Base {
 
 		if (g_GameVariables->m_ShowDemo)
 			ImGui::ShowDemoWindow();
+
+        if (Config.isDebugESP)
+            ESP_DEBUG(Config.mDebugESPDistance, ImVec4(0, 1, 0, 1));
 	}
 
 	void Menu::MainMenu()
