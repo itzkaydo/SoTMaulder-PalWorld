@@ -7,3 +7,5 @@ void ESP();
 
 void DrawUActorComponent(SDK::TArray<SDK::UActorComponent*> Comps, ImColor color);
 
+inline SDK::FVector2D pokemonCOORD;
+

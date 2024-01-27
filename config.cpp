@@ -1,12 +1,25 @@
 #include "pch.h"
 #include "config.h"
 #include <algorithm>
+#include "include/Menu.hpp"
 
 config Config;
 
 Tick TickFunc;
 Tick OldTickFunc;
 
+void config::Update(const char* filterText)
+{
+    Config.db_filteredItems.clear();
+
+    for (const auto& itemName : database::db_items) {
+        if (strstr(itemName.c_str(), filterText) != nullptr) {
+            Config.db_filteredItems.push_back(itemName);
+        }
+    }
+    std::sort(Config.db_filteredItems.begin(), Config.db_filteredItems.end());
+}
+const std::vector<std::string>& config::GetFilteredItems() { return Config.db_filteredItems; }
 
 bool DetourTick(SDK::APalPlayerCharacter* m_this, float DeltaSecond)
 {
@@ -15,6 +28,7 @@ bool DetourTick(SDK::APalPlayerCharacter* m_this, float DeltaSecond)
         if (m_this->GetPalPlayerController()->IsLocalPlayerController())
         {
             Config.localPlayer = m_this;
+            DX11_Base::g_Menu->Loops();
         }
     }
     return OldTickFunc(m_this, DeltaSecond);
@@ -42,6 +56,7 @@ SDK::APalPlayerCharacter* config::GetPalPlayerCharacter()
 
 
 
+
 void config::Init()
 {
     //register hook
@@ -50,4 +65,5 @@ void config::Init()
     TickFunc = (Tick)(Config.ClientBase + Config.offset_Tick);
 
     MH_CreateHook(TickFunc, DetourTick, reinterpret_cast<void**>(&OldTickFunc));
+    ZeroMemory(&Config.db_filteredItems, sizeof(Config.db_filteredItems));
 }

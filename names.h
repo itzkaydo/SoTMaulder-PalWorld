@@ -11,7 +11,7 @@ inline static const char* PalNames[]{
     "BOSS_Anubis",
     "BadCatgirl",
     "BOSS_BadCatgirl",
-    "Baphomet",
+    "Baphomet"
     "BOSS_Baphomet",
     "Baphomet_Dark",
     "BOSS_Baphomet_Dark",
