@@ -631,6 +631,7 @@ namespace DX11_Base {
                     locationMap["Astegon"] = Config.AstegonLocation;
                     locationMap["Azurobe"] = Config.AzurobeLocation;
                     locationMap["Beakon"] = Config.BeakonLocation;
+                    locationMap["Billys Base"] = Config.BillysBase; // Trolling this kid on official NA 0046
                     locationMap["Broncherry Aqua"] = Config.BroncherryAquaLocation;
                     locationMap["Broncherry"] = Config.BroncherryLocation;
                     locationMap["Bushi"] = Config.BushiLocation;

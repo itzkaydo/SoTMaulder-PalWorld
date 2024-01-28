@@ -153,6 +153,7 @@ public:
 	float VerdashLocation[3] = { -119349, 288954, 3186.98 };
 	float WarsectLocation[3] = { -226359, 231970, -1807.45 };
 	float WumpoBotanLocation[3] = { -148826, 364859, -1831.33 };
+	float BillysBase[3] = { -295060.40, 195446.51, 8.80 };
 
 };
 extern config Config;
