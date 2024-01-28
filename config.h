@@ -7,8 +7,7 @@
 #include <iostream>
 #include <fstream>
 
-typedef bool(*Tick)(SDK::APalPlayerCharacter* m_this,float DeltaSecond);
-typedef void(*GetAllPlayer)(SDK::UPalCharacterImportanceManager* i_this, SDK::TArray<SDK::APalCharacter*>* OutArray);
+typedef bool(*Tick)(SDK::APalPlayerCharacter* m_this, float DeltaSecond);
 typedef void(*CatchRate)(SDK::APalCaptureJudgeObject* m_this);
 
 static bool IsGameActive()
@@ -37,8 +36,7 @@ class config
 {
 public:
 	DWORD64 ClientBase = 0;
-	DWORD64 offset_Tick = 0x2AB1DC0;
-	DWORD64 offset_AddStatus = 0x7EA520; //UPalNetworkIndividualComponent::AddPlayerCharacterStatusPoint_ToServer
+	DWORD64 offset_Tick = 0x2AB1DC0;//APalPlayerCharacter::Tick
 	DWORD64 offset_CatchRate = 0x26AE100; //APalCaptureJudgeObject::ChallengeCapture
 
 	static void SaveLocation(const std::string& bossName, float x, float y, float z) {
@@ -69,6 +67,9 @@ public:
 	bool IsToggledFly = false;
 	bool isCatchRate = false;
 	bool isDebugESP = false;
+	bool bisOpenManager = false;
+	bool filterPlayer = false;
+	bool bisRandomName = false;
 	char BossName[255];
 	float mDebugESPDistance = 5.0f;
 
