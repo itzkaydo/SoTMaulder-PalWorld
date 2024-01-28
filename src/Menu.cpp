@@ -801,40 +801,6 @@ namespace DX11_Base {
                     }
                 }
             }
-            if (ImGui::Button("Crash Server", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
-            {
-                if (Config.GetPalPlayerCharacter() != NULL)
-                {
-                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
-                    {
-                        SDK::UWorld* world = Config.GetUWorld();
-                        if (!world)
-                            return;
-
-                        SDK::TUObjectArray* objects = world->GObjects;
-
-                        for (int i = 0; i < objects->NumElements; ++i) {
-                            SDK::UObject* object = objects->GetByIndex(i);
-
-                            if (!object) {
-                                continue;
-                            }
-
-                            if (!object->IsA(SDK::APalMonsterCharacter::StaticClass())) {
-                                continue;
-                            }
-
-                            SDK::APalMonsterCharacter* Monster = (SDK::APalMonsterCharacter*)object;
-                            if (!object) {
-                                continue;
-                            }
-
-                            Config.GetPalPlayerCharacter()->GetPalPlayerController()->RequestLiftup_ToServer((SDK::APalCharacter*)object);
-                        }
-
-                    }
-                }
-            }
             if (ImGui::Button("Clone", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
             {
                 if (Config.GetPalPlayerCharacter() != NULL)
