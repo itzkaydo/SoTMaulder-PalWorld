@@ -588,6 +588,7 @@ namespace DX11_Base {
                 TeleportTabs() : currentPage(0), buttonsPerPage(9) {
                     // Add your teleport locations here
                     locationMap["Anubis"] = Config.AnubisLocation;
+                    locationMap["Astegon"] = Config.AstegonLocation;
                     locationMap["Azurobe"] = Config.AzurobeLocation;
                     locationMap["Beakon"] = Config.BeakonLocation;
                     locationMap["Broncherry Aqua"] = Config.BroncherryAquaLocation;
