@@ -1606,7 +1606,7 @@ namespace database
         "PalSphere|Pal Sphere",
         "PalSphere_Robbery|Radar Sphere",
         "PalSphere_Master|Ultra Sphere",
-        "PalSphere_Debug | Debug Sphere"
+        "PalSphere_Debug|Debug Sphere"
     };
 
     const auto seeds =
