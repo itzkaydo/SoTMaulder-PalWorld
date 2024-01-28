@@ -3,6 +3,7 @@
 #include "SDK.hpp"
 #include "config.h"
 #include <algorithm>
+#define M_PI 3.14159265358979323846
 
 std::string rand_str(const int len)
 {
@@ -40,6 +41,26 @@ int InputTextCallback(ImGuiInputTextCallbackData* data) {
 
 SDK::FPalDebugOtomoPalInfo palinfo = SDK::FPalDebugOtomoPalInfo();
 SDK::TArray<SDK::EPalWazaID> EA = { 0U };
+
+SDK::FVector ToVector(SDK::FRotator Rotator)
+{
+    float angle, sr, sp, sy, cr, cp, cy;
+    //float Pitch, Yaw, Roll;
+
+    angle = Rotator.Yaw * (M_PI * 2 / 360);
+    sy = sin(angle);
+    cy = cos(angle);
+
+    angle = Rotator.Pitch * (M_PI * 2 / 360);
+    sp = sin(angle);
+    cp = cos(angle);
+
+    angle = Rotator.Roll * (M_PI * 2 / 360);
+    sr = sin(angle);
+    cr = cos(angle);
+
+    return SDK::FVector(cp * cy, cp * sy, -sp);
+}
 
 CatchRate CRate;
 CatchRate OldRate;
@@ -801,6 +822,7 @@ namespace DX11_Base {
                     }
                 }
             }
+            
             if (ImGui::Button("Clone", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
             {
                 if (Config.GetPalPlayerCharacter() != NULL)
@@ -1148,6 +1170,29 @@ namespace DX11_Base {
                 }
             }
         }
+
+        if ((GetAsyncKeyState(VK_F8) & 1))
+        {
+            if (Config.GetPalPlayerCharacter() != NULL)
+            {
+                if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController()->GetPalPlayerState())
+                    {
+                        //POINT p;
+                        //GetCursorPos(&p);
+                        //TODO: Find a better Screen to World Function, current ones don't seem to work. 
+                        SDK::FVector PlayerLocation = Config.GetPalPlayerCharacter()->K2_GetActorLocation();
+                        SDK::FRotator PlayerRotation = Config.GetPlayerEquippedWeapon()->K2_GetActorRotation();
+                        float Distance = 1000.0f; // Adjust the distance as needed TODO:: Add an option to make this a slider in the menu
+                        SDK::FVector NewLocation = PlayerLocation + ToVector(PlayerRotation) * Distance;
+                        // Singleplayer - Config.GetPalPlayerCharacter()->K2_SetActorLocation(NewLocation, false, nullptr, true);
+                        AnyWhereTP(NewLocation, Config.IsSafe);
+                    }
+                }
+            }
+        }
+
         if (Config.IsSpeedHack)
         {
             if (Config.GetUWorld()
@@ -1204,6 +1249,5 @@ namespace DX11_Base {
                 }
             }
         }
- 
     }
 }

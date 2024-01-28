@@ -6,6 +6,7 @@
 #include "database.h"
 #include <iostream>
 #include <fstream>
+#define M_PI 3.14159265358979323846
 
 typedef bool(*Tick)(SDK::APalPlayerCharacter* m_this, float DeltaSecond);
 typedef void(*CatchRate)(SDK::APalCaptureJudgeObject* m_this);
