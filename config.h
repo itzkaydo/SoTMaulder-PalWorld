@@ -114,6 +114,7 @@ public:
 
 	// Teleport Spots
 	float AnubisLocation[3] = { -170269, 94163.7, -1527.83 };
+	float AstegonLocation[3] = { -320254.55, -119209.93, 18600.84 };
 	float AzurobeLocation[3] = { -300596, 136090, -2033.13 };
 	float BeakonLocation[3] = { -237981, 2559.41, 8413.65 };
 	float BroncherryAquaLocation[3] = { -330059.98, 81386.99, -1929.8 };
