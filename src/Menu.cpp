@@ -246,6 +246,8 @@ namespace DX11_Base {
 
             ImGui::Checkbox("Debug ESP", &Config.isDebugESP);
 
+            ImGui::Checkbox("InfAmmo", &Config.IsInfinAmmo);
+
             ImGui::Checkbox("SpeedHack", &Config.IsSpeedHack);
 
             ImGui::Checkbox("AttackHack", &Config.IsAttackModiler);
@@ -276,17 +278,6 @@ namespace DX11_Base {
             }
 
             ImGui::Checkbox("Open Manager", &Config.bisOpenManager);
-
-            if (ImGui::Button("ToggleInfAmmo", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
-            {
-                if (Config.GetPalPlayerCharacter()->ShooterComponent != NULL && Config.GetPalPlayerCharacter()->ShooterComponent->CanShoot())
-                {
-                    if (Config.GetPalPlayerCharacter()->ShooterComponent->GetHasWeapon() != NULL)
-                    {
-                        Config.GetPalPlayerCharacter()->ShooterComponent->GetHasWeapon()->IsRequiredBullet = !Config.GetPalPlayerCharacter()->ShooterComponent->GetHasWeapon()->IsRequiredBullet;
-                    }
-                }
-            }
 
             //��������һ��
             ImGui::SliderFloat("SpeedModifilers", &Config.SpeedModiflers, 1, 10);
@@ -1443,6 +1434,17 @@ namespace DX11_Base {
 
     void Menu::Loops()
     {
+        if (Config.GetPalPlayerCharacter() != NULL)
+        {
+            if (Config.GetPalPlayerCharacter()->ShooterComponent != NULL && Config.GetPalPlayerCharacter()->ShooterComponent->CanShoot())
+            {
+                if (Config.GetPalPlayerCharacter()->ShooterComponent->GetHasWeapon() != NULL)
+                {
+                    Config.GetPalPlayerCharacter()->ShooterComponent->GetHasWeapon()->IsRequiredBullet = !Config.IsInfinAmmo;
+                }
+            }
+        }
+
         if ((GetAsyncKeyState(VK_F2) & 1) && IsGameActive())
         {
             SDK::APalPlayerCharacter* p_appc = Config.GetPalPlayerCharacter();
