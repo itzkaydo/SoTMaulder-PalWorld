@@ -563,6 +563,156 @@ namespace DX11_Base {
                 }
             }
 
+            if (ImGui::Button("Azurobe", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.AzurobeLocation != NULL)
+                        {
+                            SDK::FVector vector = { Config.AzurobeLocation[0],Config.AzurobeLocation[1],Config.AzurobeLocation[2] };
+                            AnyWhereTP(vector, Config.IsSafe);
+                        }
+                    }
+                }
+            }
+
+            if (ImGui::Button("Beakon", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.BeakonLocation != NULL)
+                        {
+                            SDK::FVector vector = { Config.BeakonLocation[0],Config.BeakonLocation[1],Config.BeakonLocation[2] };
+                            AnyWhereTP(vector, Config.IsSafe);
+                        }
+                    }
+                }
+            }
+
+            if (ImGui::Button("Broncherry Aqua", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.BroncherryAquaLocation != NULL)
+                        {
+                            SDK::FVector vector = { Config.BroncherryAquaLocation[0],Config.BroncherryAquaLocation[1],Config.BroncherryAquaLocation[2] };
+                            AnyWhereTP(vector, Config.IsSafe);
+                        }
+                    }
+                }
+            }
+
+            if (ImGui::Button("Broncherry", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.BroncherryLocation != NULL)
+                        {
+                            SDK::FVector vector = { Config.BroncherryLocation[0],Config.BroncherryLocation[1],Config.BroncherryLocation[2] };
+                            AnyWhereTP(vector, Config.IsSafe);
+                        }
+                    }
+                }
+            }
+
+            if (ImGui::Button("Bushi", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.BushiLocation != NULL)
+                        {
+                            SDK::FVector vector = { Config.BushiLocation[0],Config.BushiLocation[1],Config.BushiLocation[2] };
+                            AnyWhereTP(vector, Config.IsSafe);
+                        }
+                    }
+                }
+            }
+
+            if (ImGui::Button("Chillet", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.ChilletLocation != NULL)
+                        {
+                            SDK::FVector vector = { Config.ChilletLocation[0],Config.ChilletLocation[1],Config.ChilletLocation[2] };
+                            AnyWhereTP(vector, Config.IsSafe);
+                        }
+                    }
+                }
+            }
+
+            if (ImGui::Button("Dinossom Lux", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.DinossomLuxLocation != NULL)
+                        {
+                            SDK::FVector vector = { Config.DinossomLuxLocation[0],Config.DinossomLuxLocation[1],Config.DinossomLuxLocation[2] };
+                            AnyWhereTP(vector, Config.IsSafe);
+                        }
+                    }
+                }
+            }
+
+            if (ImGui::Button("Elizabee", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.ElizabeeLocation != NULL)
+                        {
+                            SDK::FVector vector = { Config.ElizabeeLocation[0],Config.ElizabeeLocation[1],Config.ElizabeeLocation[2] };
+                            AnyWhereTP(vector, Config.IsSafe);
+                        }
+                    }
+                }
+            }
+
+            if (ImGui::Button("Felbat", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.FelbatLocation != NULL)
+                        {
+                            SDK::FVector vector = { Config.FelbatLocation[0],Config.FelbatLocation[1],Config.FelbatLocation[2] };
+                            AnyWhereTP(vector, Config.IsSafe);
+                        }
+                    }
+                }
+            }
+
+            if (ImGui::Button("Fenglope", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.FenglopeLocation != NULL)
+                        {
+                            SDK::FVector vector = { Config.FenglopeLocation[0],Config.FenglopeLocation[1],Config.FenglopeLocation[2] };
+                            AnyWhereTP(vector, Config.IsSafe);
+                        }
+                    }
+                }
+            }
+
             if (ImGui::Button("Frostallion", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
             {
                 if (Config.GetPalPlayerCharacter() != NULL)
@@ -578,7 +728,37 @@ namespace DX11_Base {
                 }
             }
 
-            if (ImGui::Button("Jetdragon", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            if (ImGui::Button("Grintale", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.GrintaleLocation != NULL)
+                        {
+                            SDK::FVector vector = { Config.GrintaleLocation[0],Config.GrintaleLocation[1],Config.GrintaleLocation[2] };
+                            AnyWhereTP(vector, Config.IsSafe);
+                        }
+                    }
+                }
+            }
+
+            if (ImGui::Button("Gumoss", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.GumossLocation != NULL)
+                        {
+                            SDK::FVector vector = { Config.GumossLocation[0],Config.GumossLocation[1],Config.GumossLocation[2] };
+                            AnyWhereTP(vector, Config.IsSafe);
+                        }
+                    }
+                }
+            }
+
+            if (ImGui::Button("Jetragon", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
             {
                 if (Config.GetPalPlayerCharacter() != NULL)
                 {
@@ -587,6 +767,141 @@ namespace DX11_Base {
                         if (Config.JetragonLocation != NULL)
                         {
                             SDK::FVector vector = { Config.JetragonLocation[0],Config.JetragonLocation[1],Config.JetragonLocation[2] };
+                            AnyWhereTP(vector, Config.IsSafe);
+                        }
+                    }
+                }
+            }
+
+            if (ImGui::Button("Jormuntide", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.JormuntideLocation != NULL)
+                        {
+                            SDK::FVector vector = { Config.JormuntideLocation[0],Config.JormuntideLocation[1],Config.JormuntideLocation[2] };
+                            AnyWhereTP(vector, Config.IsSafe);
+                        }
+                    }
+                }
+            }
+
+            if (ImGui::Button("Jormuntide2", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.Jormuntide2Location != NULL)
+                        {
+                            SDK::FVector vector = { Config.Jormuntide2Location[0],Config.Jormuntide2Location[1],Config.Jormuntide2Location[2] };
+                            AnyWhereTP(vector, Config.IsSafe);
+                        }
+                    }
+                }
+            }
+
+            if (ImGui::Button("Katress", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.KatressLocation != NULL)
+                        {
+                            SDK::FVector vector = { Config.KatressLocation[0],Config.KatressLocation[1],Config.KatressLocation[2] };
+                            AnyWhereTP(vector, Config.IsSafe);
+                        }
+                    }
+                }
+            }
+
+            if (ImGui::Button("Kingpaca", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.KingpacaLocation != NULL)
+                        {
+                            SDK::FVector vector = { Config.KingpacaLocation[0],Config.KingpacaLocation[1],Config.KingpacaLocation[2] };
+                            AnyWhereTP(vector, Config.IsSafe);
+                        }
+                    }
+                }
+            }
+
+            if (ImGui::Button("Lunaris", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.LunarisLocation != NULL)
+                        {
+                            SDK::FVector vector = { Config.LunarisLocation[0],Config.LunarisLocation[1],Config.LunarisLocation[2] };
+                            AnyWhereTP(vector, Config.IsSafe);
+                        }
+                    }
+                }
+            }
+
+            if (ImGui::Button("Mammorest", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.MammorestLocation != NULL)
+                        {
+                            SDK::FVector vector = { Config.MammorestLocation[0],Config.MammorestLocation[1],Config.MammorestLocation[2] };
+                            AnyWhereTP(vector, Config.IsSafe);
+                        }
+                    }
+                }
+            }
+
+            if (ImGui::Button("Menasting", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.MenastingLocation != NULL)
+                        {
+                            SDK::FVector vector = { Config.MenastingLocation[0],Config.MenastingLocation[1],Config.MenastingLocation[2] };
+                            AnyWhereTP(vector, Config.IsSafe);
+                        }
+                    }
+                }
+            }
+
+            if (ImGui::Button("Mossanda Lux", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.MossandaLuxLocation != NULL)
+                        {
+                            SDK::FVector vector = { Config.MossandaLuxLocation[0],Config.MossandaLuxLocation[1],Config.MossandaLuxLocation[2] };
+                            AnyWhereTP(vector, Config.IsSafe);
+                        }
+                    }
+                }
+            }
+
+            if (ImGui::Button("Nitewing", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.NitewingLocation != NULL)
+                        {
+                            SDK::FVector vector = { Config.NitewingLocation[0],Config.NitewingLocation[1],Config.NitewingLocation[2] };
                             AnyWhereTP(vector, Config.IsSafe);
                         }
                     }
@@ -607,6 +922,174 @@ namespace DX11_Base {
                     }
                 }
             }
+
+            if (ImGui::Button("Penking", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.PenkingLocation != NULL)
+                        {
+                            SDK::FVector vector = { Config.PenkingLocation[0],Config.PenkingLocation[1],Config.PenkingLocation[2] };
+                            AnyWhereTP(vector, Config.IsSafe);
+                        }
+                    }
+                }
+            }
+
+            if (ImGui::Button("Petallia", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.PetalliaLocation != NULL)
+                        {
+                            SDK::FVector vector = { Config.PetalliaLocation[0],Config.PetalliaLocation[1],Config.PetalliaLocation[2] };
+                            AnyWhereTP(vector, Config.IsSafe);
+                        }
+                    }
+                }
+            }
+
+            if (ImGui::Button("Quivern", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.QuivernLocation != NULL)
+                        {
+                            SDK::FVector vector = { Config.QuivernLocation[0],Config.QuivernLocation[1],Config.QuivernLocation[2] };
+                            AnyWhereTP(vector, Config.IsSafe);
+                        }
+                    }
+                }
+            }
+
+            if (ImGui::Button("Relaxasaurus Lux", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.RelaxasaurusLuxLocation != NULL)
+                        {
+                            SDK::FVector vector = { Config.RelaxasaurusLuxLocation[0],Config.RelaxasaurusLuxLocation[1],Config.RelaxasaurusLuxLocation[2] };
+                            AnyWhereTP(vector, Config.IsSafe);
+                        }
+                    }
+                }
+            }
+
+            if (ImGui::Button("Siblex", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.SiblexLocation != NULL)
+                        {
+                            SDK::FVector vector = { Config.SiblexLocation[0],Config.SiblexLocation[1],Config.SiblexLocation[2] };
+                            AnyWhereTP(vector, Config.IsSafe);
+                        }
+                    }
+                }
+            }
+
+            if (ImGui::Button("Suzaku", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.SuzakuLocation != NULL)
+                        {
+                            SDK::FVector vector = { Config.SuzakuLocation[0],Config.SuzakuLocation[1],Config.SuzakuLocation[2] };
+                            AnyWhereTP(vector, Config.IsSafe);
+                        }
+                    }
+                }
+            }
+
+            if (ImGui::Button("Univolt", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.UnivoltLocation != NULL)
+                        {
+                            SDK::FVector vector = { Config.UnivoltLocation[0],Config.UnivoltLocation[1],Config.UnivoltLocation[2] };
+                            AnyWhereTP(vector, Config.IsSafe);
+                        }
+                    }
+                }
+            }
+
+            if (ImGui::Button("Vaelet", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.VaeletLocation != NULL)
+                        {
+                            SDK::FVector vector = { Config.VaeletLocation[0],Config.VaeletLocation[1],Config.VaeletLocation[2] };
+                            AnyWhereTP(vector, Config.IsSafe);
+                        }
+                    }
+                }
+            }
+
+            if (ImGui::Button("Verdash", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.VerdashLocation != NULL)
+                        {
+                            SDK::FVector vector = { Config.VerdashLocation[0],Config.VerdashLocation[1],Config.VerdashLocation[2] };
+                            AnyWhereTP(vector, Config.IsSafe);
+                        }
+                    }
+                }
+            }
+
+            if (ImGui::Button("Warsect", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.WarsectLocation != NULL)
+                        {
+                            SDK::FVector vector = { Config.WarsectLocation[0],Config.WarsectLocation[1],Config.WarsectLocation[2] };
+                            AnyWhereTP(vector, Config.IsSafe);
+                        }
+                    }
+                }
+            }
+
+            if (ImGui::Button("Wumpo Botan", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.WumpoBotanLocation != NULL)
+                        {
+                            SDK::FVector vector = { Config.WumpoBotanLocation[0],Config.WumpoBotanLocation[1],Config.WumpoBotanLocation[2] };
+                            AnyWhereTP(vector, Config.IsSafe);
+                        }
+                    }
+                }
+            }
+
+
+
         }
         void TABGameBreaking()
         {
