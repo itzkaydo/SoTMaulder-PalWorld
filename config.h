@@ -59,7 +59,7 @@ public:
 	bool IsAttackModiler = false;
 	bool IsDefuseModiler = false;
 	bool IsInfStamina = false;
-	bool IsSafe = true;
+	bool IsSafe = false;
 	bool IsInfinAmmo = false;
 	bool IsMuteki = false;
 	bool IsAdmin = true;
