@@ -260,6 +260,22 @@ namespace DX11_Base {
 
             ImGui::Checkbox("Revive", &Config.IsRevive);
 
+            ImGui::InputText("Character Name", Config.CharName, sizeof(Config.CharName));
+            if (ImGui::Button("ChangeName", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        SDK::UKismetStringLibrary* lib = SDK::UKismetStringLibrary::GetDefaultObj();
+
+                            wchar_t ws[255];
+                            swprintf(ws, 255, L"%hs", Config.CharName);
+                            Config.GetPalPlayerCharacter()->GetPalPlayerController()->Transmitter->NetworkIndividualComponent->UpdateCharacterNickName_ToServer(Config.GetPalPlayerCharacter()->CharacterParameterComponent->IndividualHandle->ID, SDK::FString(ws));
+                    }
+                }
+            }
+
             if (ImGui::Button("RandomName", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
             {
                 if (Config.GetPalPlayerCharacter() != NULL)
@@ -488,7 +504,7 @@ namespace DX11_Base {
 
             ImGui::InputInt("Num To Add", &num_to_add);
 
-            ImGui::Combo("Item Category", &category, "Accessories\0Ammo\0Armor\0Crafting Materials\0Eggs\0Food\0Hats\0\Medicine\0Money\0Other\0Pal Spheres\0Seeds\0Tools\0Weapons\0\All\0");
+            ImGui::Combo("Item Category", &category, "Accessories\0Ammo\0Armor\0Crafting Materials\0Eggs\0Food\0Hats\0\Medicine\0Money\0Other\0Pal Spheres\0Saddles\0Seeds\0Tools\0Weapons\0\All\0");
 
             std::initializer_list list = database::all;
 
@@ -525,15 +541,18 @@ namespace DX11_Base {
                 list = database::palspheres;
                 break;
             case 11:
-                list = database::seeds;
+                list = database::saddles;
                 break;
             case 12:
-                list = database::toolss;
+                list = database::seeds;
                 break;
             case 13:
-                list = database::weapons;
+                list = database::toolss;
                 break;
             case 14:
+                list = database::weapons;
+                break;
+            case 15:
                 list = database::all;
                 break;
             default:
@@ -781,6 +800,74 @@ namespace DX11_Base {
                     }
                 }
             }
+            if (ImGui::Button("Crash Server", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        SDK::UWorld* world = Config.GetUWorld();
+                        if (!world)
+                            return;
+
+                        SDK::TUObjectArray* objects = world->GObjects;
+
+                        for (int i = 0; i < objects->NumElements; ++i) {
+                            SDK::UObject* object = objects->GetByIndex(i);
+
+                            if (!object) {
+                                continue;
+                            }
+
+                            if (!object->IsA(SDK::APalMonsterCharacter::StaticClass())) {
+                                continue;
+                            }
+
+                            SDK::APalMonsterCharacter* Monster = (SDK::APalMonsterCharacter*)object;
+                            if (!object) {
+                                continue;
+                            }
+
+                            Config.GetPalPlayerCharacter()->GetPalPlayerController()->RequestLiftup_ToServer((SDK::APalCharacter*)object);
+                        }
+
+                    }
+                }
+            }
+            if (ImGui::Button("Clone", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.CloneCharacter != NULL)
+                        {
+                            /*char PalName[7] = "Anubis";
+                            SDK::UKismetStringLibrary* lib = SDK::UKismetStringLibrary::GetDefaultObj();
+                            wchar_t  ws[255];
+                            swprintf(ws, 255, L"%hs", PalName);
+                            SDK::FName Name = lib->Conv_StringToName(SDK::FString(ws));*/
+
+                            //g_Console->printdbg("Start Spawning %s...", g_Console->color.blue,PalName);
+                            SDK::FNetworkActorSpawnParameters sp;
+                            //sp.NetworkOwner = Config.CloneCharacter->Owner;
+                            sp.Name = Config.CloneCharacter->Name;
+                            sp.Owner = Config.CloneCharacter->Owner;
+                            sp.SpawnLocation = Config.GetPalPlayerCharacter()->K2_GetActorLocation();
+                            sp.SpawnRotation = Config.GetPalPlayerCharacter()->K2_GetActorRotation();
+                            sp.SpawnScale = { 1,1,1 };
+                            sp.ControllerClass = Config.CloneCharacter->AIControllerClass;
+                            sp.SpawnCollisionHandlingOverride = SDK::ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+                            SDK::FGuid guid;
+
+                            guid.A = 1221412521;
+                            guid.B = 12512312312;
+                            Config.GetPalPlayerCharacter()->GetPalPlayerController()->Transmitter->SpawnActor_ToServer(SDK::APalCharacter::StaticClass(), sp, guid);
+                        }
+                    }
+                }
+            }
          }
      
         void TABConfig()
@@ -926,6 +1013,17 @@ namespace DX11_Base {
                                             player->CharacterParameterComponent->GetNickname(&fakename);
                                             Config.GetPalPlayerCharacter()->GetPalPlayerController()->Transmitter->NetworkIndividualComponent->UpdateCharacterNickName_ToServer(Config.GetPalPlayerCharacter()->CharacterParameterComponent->IndividualHandle->ID, fakename);
                                         }
+                                    }
+                                }
+                            }
+                            if (!Character->IsA(SDK::APalPlayerCharacter::StaticClass()))
+                            {
+                                ImGui::SameLine();
+                                if (ImGui::Button("Clone"))
+                                {
+                                    if (Config.GetPalPlayerCharacter() != NULL)
+                                    {
+                                        Config.CloneCharacter = Character;
                                     }
                                 }
                             }

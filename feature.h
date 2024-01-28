@@ -10,4 +10,3 @@ void ESP_DEBUG(float mDist, ImVec4 color, SDK::UClass* mEntType = SDK::AActor::S
 void DrawUActorComponent(SDK::TArray<SDK::UActorComponent*> Comps, ImColor color);
 
 inline SDK::FVector2D pokemonCOORD;
-

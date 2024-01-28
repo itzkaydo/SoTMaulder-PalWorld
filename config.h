@@ -70,6 +70,7 @@ public:
 	bool bisOpenManager = false;
 	bool filterPlayer = false;
 	bool bisRandomName = false;
+	char CharName[255];
 	char BossName[255];
 	float mDebugESPDistance = 5.0f;
 
@@ -94,6 +95,7 @@ public:
 	SDK::UPalCharacterImportanceManager* UCIM = NULL;
 	SDK::UObject* WorldContextObject = NULL;
 	std::vector<std::string> db_filteredItems;
+	SDK::APalCharacter* CloneCharacter = NULL;
 	
 	//����
 	static SDK::UWorld* GetUWorld();

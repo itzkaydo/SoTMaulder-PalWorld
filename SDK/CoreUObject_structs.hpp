@@ -1375,6 +1375,7 @@ public:
 	FRotator operator*(decltype(Pitch) Scalar) const;
 
 	FRotator operator/(decltype(Pitch) Scalar) const;
+	SDK::FVector ToVector();
 };
 
 // 0x18 (0x18 - 0x0)
