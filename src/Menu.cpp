@@ -794,7 +794,7 @@ namespace DX11_Base {
                     ((SDK::APalPlayerState*)pPalCharacter->PlayerState)->RequestObtainLevelObject_ToServer(relic);
                 }
             }
-            if (ImGui::Button("Unlock Fast Travel", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            if (ImGui::Button("Unlock Fast Travel", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20))) //credit aaacaaac
             {
                 std::vector<std::string> keyStrings = {
                     "6E03F8464BAD9E458B843AA30BE1CC8F","DDBBFFAF43D9219AE68DF98744DF0831","603ED0CD4CFB9AFDC9E11F805594CCE5","6282FE1E4029EDCDB14135AA4C171E4C","9FBB93D84811BE424A37C391DBFBB476","979BF2044C8E8FE559B598A95A83EDE3","923B781345D2AB7ECED6BABD6E97ECE8",
@@ -821,42 +821,6 @@ namespace DX11_Base {
                     ((SDK::APalPlayerState*)pPalCharacter->PlayerState)->RequestUnlockFastTravelPoint_ToServer(FNameKS);
                 }
 
-            }
-            if (ImGui::Button("Go To Unlocked Fast Travel", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20))) //credit to bennett
-            {
-                SDK::APalPlayerCharacter* pPalCharacter = Config.GetPalPlayerCharacter();
-                if (!pPalCharacter)
-                    return;
-
-                SDK::UWorld* world = Config.GetUWorld();
-                if (!world)
-                    return;
-
-                SDK::TUObjectArray* objects = world->GObjects;
-
-                for (int i = 0; i < objects->NumElements; ++i) {
-                    SDK::UObject* object = objects->GetByIndex(i);
-
-                    if (!object) {
-                        continue;
-                    }
-
-                    if (!object->IsA(SDK::APalLevelObjectUnlockableFastTravelPoint::StaticClass())) {
-                        continue;
-                    }
-
-                    SDK::APalLevelObjectUnlockableFastTravelPoint* travel = (SDK::APalLevelObjectUnlockableFastTravelPoint*)object;
-                    if (!travel) {
-                        continue;
-                    }
-                    if (travel->bUnlocked)
-                    {
-                        continue;
-                    }
-
-                    SDK::FVector loc = travel->K2_GetActorLocation();
-                    AnyWhereTP(loc, false);
-                }
             }
             if (ImGui::Button("Crash Server", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
             {
