@@ -224,12 +224,6 @@ namespace DX11_Base {
 	/// </summary>
 	HRESULT APIENTRY D3D11Window::HookPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags)
 	{
-		if (g_KillSwitch) {
-			g_Hooking->Unhook();
-			g_D3D11Window->oIDXGISwapChainPresent(pSwapChain, SyncInterval, Flags);
-			g_Running = FALSE;
-			return 0;
-		}
 		g_D3D11Window->Overlay(pSwapChain);
 		return g_D3D11Window->oIDXGISwapChainPresent(pSwapChain, SyncInterval, Flags);
 	}

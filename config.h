@@ -27,6 +27,8 @@ public:
 	bool IsSafe = true;
 	bool IsInfinAmmo = false;
 	bool IsToggledFly = false;
+	bool IsForgeMode = false;
+	bool IsTeleportAllToXhair = false;
 	bool IsMuteki = false;
 	bool IsMonster = false;
 	bool IsQuick = false;
@@ -51,6 +53,7 @@ public:
 	int EXP = 0;
 	int Item = 0;
 	float Pos[3] = { 0,0,0 };
+	float mDebugEntCapDistance = 10.0f;
 	float CatchRate = 1;
 	char ItemName[255];
 	char inputTextBuffer[255] = "";
@@ -76,6 +79,21 @@ public:
 	//Filtered Items
 	std::vector<std::string> db_filteredItems;
 
+	struct SWaypoint
+	{
+		std::string waypointName;
+		SDK::FVector waypointLocation;
+		SDK::FRotator waypointRotation;
+
+		bool bIsShown = true;
+		float* mColor[4];
+
+		SWaypoint() {};
+		SWaypoint(std::string wpName, SDK::FVector wpLocation, SDK::FRotator wpRotation) { waypointName = wpName; waypointLocation = wpLocation; waypointRotation = wpRotation; }
+	};
+	std::vector<SWaypoint> db_waypoints;
+	std::vector<std::pair<std::string, SDK::UClass*>> db_filteredEnts;
+
 	//static function
 	static SDK::UWorld* GetUWorld();
 	static SDK::UPalCharacterImportanceManager* GetCharacterImpManager();
@@ -85,6 +103,7 @@ public:
 	static SDK::APalPlayerState* GetPalPlayerState();
 	static SDK::UPalPlayerInventoryData* GetInventoryComponent();
 	static SDK::APalWeaponBase* GetPlayerEquippedWeapon();
+	static bool GetPartyPals(std::vector<SDK::AActor*> outResult);
 	static bool	GetTAllPlayers(SDK::TArray<class SDK::APalCharacter*>* outResult);
 	static bool	GetTAllImpNPC(SDK::TArray<class SDK::APalCharacter*>* outResult);
 	static bool	GetTAllNPC(SDK::TArray<class SDK::APalCharacter*>* outResult);

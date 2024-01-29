@@ -334,6 +334,110 @@ void ResetStamina()
 		return;
 
 	pParams->ResetSP();
+
+
+	//	Reset Pal Stamina ??
+	TArray<APalCharacter*> outPals;
+	Config.GetTAllPals(&outPals);
+	DWORD palsSize = outPals.Count();
+	for (int i = 0; i < palsSize; i++)
+	{
+		APalCharacter* cPal = outPals[i];
+		if (!cPal || cPal->IsA(APalMonsterCharacter::StaticClass()))
+			continue;
+
+		UPalCharacterParameterComponent* pPalParams = pPalCharacter->CharacterParameterComponent;
+		if (!pPalParams)
+			return;
+
+		pPalParams->ResetSP();
+	}
+}
+
+// credit xCENTx
+void ForgeActor(SDK::AActor* pTarget, float mDistance, float mHeight, float mAngle)
+{
+	APalPlayerCharacter* pPalPlayerCharacter = Config.GetPalPlayerCharacter();
+	APlayerController* pPlayerController = Config.GetPalPlayerController();
+	if (!pTarget || !pPalPlayerCharacter || !pPlayerController)
+		return;
+
+	APlayerCameraManager* pCamera = pPlayerController->PlayerCameraManager;
+	if (!pCamera)
+		return;
+
+	FVector playerLocation = pPalPlayerCharacter->K2_GetActorLocation();
+	FVector camFwdDir = pCamera->GetActorForwardVector() * (mDistance * 100.f);
+	FVector targetLocation = playerLocation + camFwdDir;
+
+	if (mHeight != 0.0f)
+		targetLocation.Y += mHeight;
+
+	FRotator targetRotation = pTarget->K2_GetActorRotation();
+	if (mAngle != 0.0f)
+		targetRotation.Roll += mAngle;
+
+	pTarget->K2_SetActorLocation(targetLocation, false, nullptr, true);
+	pTarget->K2_SetActorRotation(targetRotation, true);
+}
+
+// credit: xCENTx
+void TeleportAllPalsToCrosshair(float mDistance)
+{
+	TArray<APalCharacter*> outPals;
+	Config.GetTAllPals(&outPals);
+	DWORD palsCount = outPals.Count();
+	for (int i = 0; i < palsCount; i++)
+	{
+		APalCharacter* cPal = outPals[i];
+
+		if (!cPal || !cPal->IsA(APalMonsterCharacter::StaticClass()))
+			continue;
+
+		//	@TODO: displace with entity width for true distance, right now it is distance from origin
+		//	FVector palOrigin;
+		//	FVector palBounds;
+		//	cPal->GetActorBounds(true, &palOrigin, &palBounds, false);
+		//	float adj = palBounds.X * .5 + mDistance;
+
+		ForgeActor(cPal, mDistance);
+	}
+}
+
+// credit: xCENTx
+void AddWaypointLocation(std::string wpName)
+{
+	APalCharacter* pPalCharacater = Config.GetPalPlayerCharacter();
+	if (!pPalCharacater)
+		return;
+
+	FVector wpLocation = pPalCharacater->K2_GetActorLocation();
+	FRotator wpRotation = pPalCharacater->K2_GetActorRotation();
+	config::SWaypoint newWaypoint = config::SWaypoint("[WAYPOINT]" + wpName, wpLocation, wpRotation);
+	Config.db_waypoints.push_back(newWaypoint);
+}
+
+// credit: xCENTx
+//	must be called from a rendering thread with imgui context
+void RenderWaypointsToScreen()
+{
+	APalCharacter* pPalCharacater = Config.GetPalPlayerCharacter();
+	APalPlayerController* pPalController = Config.GetPalPlayerController();
+	if (!pPalCharacater || !pPalController)
+		return;
+
+	ImDrawList* draw = ImGui::GetWindowDrawList();
+
+	for (auto waypoint : Config.db_waypoints)
+	{
+		FVector2D vScreen;
+		if (!pPalController->ProjectWorldLocationToScreen(waypoint.waypointLocation, &vScreen, false))
+			continue;
+
+		auto color = ImColor(1.0f, 1.0f, 1.0f, 1.0f);
+
+		draw->AddText(ImVec2(vScreen.X, vScreen.Y), color, waypoint.waypointName.c_str());
+	}
 }
 
 //	

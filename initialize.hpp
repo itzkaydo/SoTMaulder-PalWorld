@@ -1,5 +1,4 @@
 #pragma once
-#include "SDK.hpp"
 #include "config.h"
 #include "include/helper.h"
 #include "include/Console.hpp"
@@ -7,6 +6,18 @@
 #include "include/D3D11Window.hpp"
 #include "include/Hooking.hpp"
 using namespace DX11_Base;
+
+//  please dont remove , this is useful for a variety of things
+void ClientBGThread()
+{
+    while (g_Running)
+    {
+        //  test cache runners
+
+        std::this_thread::sleep_for(1ms);
+        std::this_thread::yield();
+    }
+}
 
 DWORD WINAPI MainThread_Initialize()
 {
@@ -31,17 +42,27 @@ DWORD WINAPI MainThread_Initialize()
 
     ///  RENDER LOOP
     g_Running = TRUE;
+
+    std::thread WCMUpdate(ClientBGThread); // Initialize Loops Thread
     while (g_Running)
     {
         if (GetAsyncKeyState(VK_INSERT) & 1)
         {
             g_GameVariables->m_ShowMenu = !g_GameVariables->m_ShowMenu;
             g_GameVariables->m_ShowHud = !g_GameVariables->m_ShowMenu;
-        
+
+        }
+
+
+        if (g_KillSwitch)
+        {
+            g_KillSwitch = false;
+            g_Hooking->Unhook();
         }
     }
 
     ///  EXIT
+    WCMUpdate.join(); // Exit Loops Thread
     FreeLibraryAndExitThread(g_hModule, EXIT_SUCCESS);
     return EXIT_SUCCESS;
 }

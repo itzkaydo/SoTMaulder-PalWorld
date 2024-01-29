@@ -67,6 +67,8 @@ void ToggleCatchRate(bool catchrate) {
 
 namespace DX11_Base {
     char inputBuffer_getFnAddr[100];
+    char inputBuffer_getClass[100];
+    char inputBuffer_setWaypoint[32];
     namespace Styles {
         void InitStyle()
         {
@@ -164,6 +166,14 @@ namespace DX11_Base {
             ImGui::Checkbox("Godmode", &Config.IsMuteki);
 
             ImGui::Checkbox("Revive", &Config.IsRevive);
+
+            ImGui::Checkbox("Tele Mobs To Xhair", &Config.IsTeleportAllToXhair);
+            if (Config.IsTeleportAllToXhair)
+            {
+                ImGui::SameLine();
+                ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x);
+                ImGui::SliderFloat("##ENT_CAP_DISTANCE", &Config.mDebugEntCapDistance, 1.0f, 100.f, "%.0f", ImGuiSliderFlags_AlwaysClamp);
+            }
 
             ImGui::InputText("Character Name", Config.CharName, sizeof(Config.CharName));
             if (ImGui::Button("ChangeName", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
@@ -914,6 +924,55 @@ namespace DX11_Base {
                 memset(inputBuffer_getFnAddr, 0, 100);
             }
 
+            //  Get Class pointer by name
+            ImGui::InputTextWithHint("##INPUT_GETCLASS", "INPUT OBJECT CLASS NAME", inputBuffer_getClass, 100);
+            ImGui::SameLine();
+            if (ImGui::Button("GET CLASS", ImVec2(ImGui::GetContentRegionAvail().x, 20)))
+            {
+                std::string input = inputBuffer_getClass;
+                SDK::UClass* czClass = SDK::UObject::FindObject<SDK::UClass>(input.c_str());
+                if (czClass)
+                {
+                    static __int64 dwHandle = reinterpret_cast<__int64>(GetModuleHandle(0));
+                    g_Console->printdbg("[+] Found [%s] -> 0x%llX\n", Console::Colors::yellow, input.c_str(), czClass->Class);
+                }
+                else
+                    g_Console->printdbg("[!] CLASS [%s] NOT FOUND!\n", Console::Colors::red, input.c_str());
+
+            }
+
+            //  Waypoints
+            ImGui::InputTextWithHint("##INPUT_SETWAYPOINT", "CUSTOM WAYPOINT NAME", inputBuffer_setWaypoint, 32);
+            ImGui::SameLine();
+            if (ImGui::Button("SET", ImVec2(ImGui::GetContentRegionAvail().x, 20)))
+            {
+                std::string wpName = inputBuffer_setWaypoint;
+                if (wpName.size() > 0)
+                {
+                    AddWaypointLocation(wpName);
+                    memset(inputBuffer_setWaypoint, 0, 32);
+                }
+            }
+            if (Config.db_waypoints.size() > 0)
+            {
+                if (ImGui::BeginChild("##CHILD_WAYPOINTS", { 0.0f, 100.f }))
+                {
+                    DWORD index = -1;
+                    for (auto waypoint : Config.db_waypoints)
+                    {
+                        index++;
+                        ImGui::PushID(index);
+                        //  ImGui::Checkbox("SHOW", &waypoint.bIsShown);
+                        //  ImGui::SameLine();
+                        if (ImGui::Button(waypoint.waypointName.c_str(), ImVec2(ImGui::GetContentRegionAvail().x, 20)))
+                            AnyWhereTP(waypoint.waypointLocation, false);
+                        ImGui::PopID();
+                    }
+
+                    ImGui::EndChild();
+                }
+            }
+
         }
 	}
 
@@ -1190,6 +1249,14 @@ namespace DX11_Base {
         //  
         if (Config.IsDefuseModiler)
             SetPlayerDefenseParam(Config.DefuseUp);
+
+        //
+        if (Config.db_waypoints.size() > 0)
+            RenderWaypointsToScreen();
+
+        //
+        if (Config.IsTeleportAllToXhair)
+            TeleportAllPalsToCrosshair(Config.mDebugEntCapDistance);
 
         //  
         if (Config.IsInfStamina)
