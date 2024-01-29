@@ -1067,6 +1067,19 @@ namespace DX11_Base {
                             Config.GetPalPlayerCharacter()->GetPalPlayerController()->Transmitter->Group->RequestJoinGuildForPlayer_ToServer(guid1, guid2);
                         }
                     }
+                    if (Actor->IsA(SDK::APalPlayerCharacter::StaticClass())) {
+                        ImGui::SameLine();
+                        if (ImGui::Button("Steal Guild")) {
+                            SDK::FGuid guid1 = Config.GetPalPlayerCharacter()->GetPalPlayerController()->GetPlayerUId();
+                            SDK::FGuid guid2;
+
+                            guid2 = SDK::UPalUtility::GetDefaultObj()->GetPlayerUIDByActor(Actor);
+
+                            g_Console->printdbg("\n\n[+] Player 1 GUID: %x\nPlayer 2 GUID: %x [+]\n\n", Console::Colors::green, guid1, guid2);
+
+                            Config.GetPalPlayerCharacter()->GetPalPlayerController()->Transmitter->Group->RequestChangeGuildAdmin_ToServer(guid1, guid2);
+                        }
+                    }
                     if (Actor->IsA(SDK::APalMapLevelObject::StaticClass())) {
                         ImGui::SameLine();
                         if (ImGui::Button("Destroy")) {
