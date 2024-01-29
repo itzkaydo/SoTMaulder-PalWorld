@@ -8,8 +8,6 @@
       "includePath": [
         "${env.INCLUDE}",
         "${workspaceRoot}\\**"
-        "D:\\Downloads\\PalWorld-NetCrack-master\\PalWorld-NetCrack-master"
-        "D:\\Downloads\\PalWorld-NetCrack-master\\PalWorld-NetCrack-master\\include"
       ],
       "defines": [
         "WIN32",

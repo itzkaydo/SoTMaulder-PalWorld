@@ -1,4 +1,4 @@
-ï»¿#pragma once
+#pragma once
 #include "pch.h"
 
 namespace database
@@ -1417,7 +1417,7 @@ namespace database
         "Pan|Bread",
         "Cake|Cake",
         "CheeseBurger|Cheeseburger",
-        "ChickenSaute|Chikipi SautÃ©",
+        "ChickenSaute|Chikipi Sauté",
         "Carbonara|Carbonara",
         "Meat_BerryGoat|Caprity Meat",
         "Meat_ChickenPal|Chikipi Poultry",
@@ -2062,7 +2062,7 @@ namespace database
 "Pan|Bread",
 "Cake|Cake",
 "CheeseBurger|Cheeseburger",
-"ChickenSaute|Chikipi SautÃ©",
+"ChickenSaute|Chikipi Sauté",
 "Carbonara|Carbonara",
 "Meat_BerryGoat|Caprity Meat",
 "Meat_ChickenPal|Chikipi Poultry",

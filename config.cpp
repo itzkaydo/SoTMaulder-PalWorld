@@ -12,7 +12,9 @@ void config::Update(const char* filterText)
 {
     Config.db_filteredItems.clear();
 
-    for (const auto& itemName : database::db_items) {
+    const auto& itemsToSearch = database::db_items;
+
+    for (const auto& itemName : itemsToSearch) {
         if (strstr(itemName.c_str(), filterText) != nullptr) {
             Config.db_filteredItems.push_back(itemName);
         }
@@ -67,6 +69,15 @@ SDK::APalPlayerCharacter* config::GetPalPlayerCharacter()
         return Config.localPlayer;
     }
     return nullptr;
+}
+
+SDK::APalPlayerController* config::GetPalPlayerController()
+{
+    SDK::APalPlayerCharacter* pPlayer = GetPalPlayerCharacter();
+    if (!pPlayer)
+        return nullptr;
+
+    return static_cast<SDK::APalPlayerController*>(pPlayer->GetPalPlayerController());
 }
 
 SDK::APalPlayerState* config::GetPalPlayerState()
@@ -151,7 +162,7 @@ bool config::GetAllActorsofType(SDK::UClass* mType, std::vector<SDK::AActor*>* o
 
     //	Get Levels
     SDK::TArray<SDK::ULevel*> pLevelsArray = pWorld->Levels;
-    __int32 levelsCount = pLevelsArray.Num();
+    __int32 levelsCount = pLevelsArray.Count();
 
     //	Loop Levels Array
     for (int i = 0; i < levelsCount; i++)
@@ -160,7 +171,7 @@ bool config::GetAllActorsofType(SDK::UClass* mType, std::vector<SDK::AActor*>* o
             continue;
 
         SDK::TArray<SDK::AActor*> pActorsArray = pLevelsArray[i]->Actors;
-        __int32 actorsCount = pActorsArray.Num();
+        __int32 actorsCount = pActorsArray.Count();
 
         //	Loop Actor Array
         for (int j = 0; j < actorsCount; j++)
@@ -192,8 +203,14 @@ void config::Init()
     //register hook
     Config.ClientBase = (DWORD64)GetModuleHandleA("PalWorld-Win64-Shipping.exe");
 
+    SDK::InitGObjects();
+
+    Config.gWorld = Config.GetUWorld();
+
     TickFunc = (Tick)(Config.ClientBase + Config.offset_Tick);
 
     MH_CreateHook(TickFunc, DetourTick, reinterpret_cast<void**>(&OldTickFunc));
+
+    //init database
     ZeroMemory(&Config.db_filteredItems, sizeof(Config.db_filteredItems));
 }
