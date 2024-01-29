@@ -15,6 +15,29 @@ std::string rand_str(const int len)
     }
     return str;
 }
+void Damage(SDK::APalCharacter* character, int32 damage)
+{
+    SDK::FPalDamageInfo  info = SDK::FPalDamageInfo();
+    info.AttackElementType = SDK::EPalElementType::Normal;
+    info.Attacker = Config.GetPalPlayerCharacter();
+    info.AttackerGroupID = Config.GetPalPlayerState()->IndividualHandleId.PlayerUId;
+    info.AttackerLevel = 50;
+    info.AttackType = SDK::EPalAttackType::Weapon;
+    info.bApplyNativeDamageValue = true;
+    info.bAttackableToFriend = true;
+    info.IgnoreShield = true;
+    info.NativeDamageValue = damage;
+    Config.GetPalPlayerState()->SendDamage_ToServer(character, info);
+}
+
+int InputTextCallback(ImGuiInputTextCallbackData* data) {
+    char inputChar = data->EventChar;
+
+    Config.Update(Config.inputTextBuffer);
+
+    return 0;
+}
+
 CatchRate CRate;
 CatchRate OldRate;
 
@@ -40,28 +63,6 @@ void ToggleCatchRate(bool catchrate) {
         MH_DisableHook(CRate);
 
     }
-}
-void Damage(SDK::APalCharacter* character, int32 damage)
-{
-    SDK::FPalDamageInfo  info = SDK::FPalDamageInfo();
-    info.AttackElementType = SDK::EPalElementType::Normal;
-    info.Attacker = Config.GetPalPlayerCharacter();
-    info.AttackerGroupID = Config.GetPalPlayerState()->IndividualHandleId.PlayerUId;
-    info.AttackerLevel = 50;
-    info.AttackType = SDK::EPalAttackType::Weapon;
-    info.bApplyNativeDamageValue = true;
-    info.bAttackableToFriend = true;
-    info.IgnoreShield = true;
-    info.NativeDamageValue = damage;
-    Config.GetPalPlayerState()->SendDamage_ToServer(character, info);
-}
-
-int InputTextCallback(ImGuiInputTextCallbackData* data) {
-    char inputChar = data->EventChar;
-
-    Config.Update(Config.inputTextBuffer);
-
-    return 0;
 }
 
 namespace DX11_Base {
@@ -1022,7 +1023,7 @@ namespace DX11_Base {
             ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(g_Menu->dbg_RAINBOW));
             ImGui::PushStyleColor(ImGuiCol_BorderShadow, ImVec4(g_Menu->dbg_RAINBOW));
         }
-        if (!ImGui::Begin("PalWorld", &g_GameVariables->m_ShowMenu, 96))
+        if (!ImGui::Begin("SoTMaulder-Palworld", &g_GameVariables->m_ShowMenu, 96))
         {
             ImGui::End();
             return;
