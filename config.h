@@ -72,6 +72,7 @@ public:
 	bool filterPlayer = false;
 	bool bisRandomName = false;
 	char CharName[255];
+	int keyToFName;
 	char BossName[255];
 	float mDebugESPDistance = 5.0f;
 
