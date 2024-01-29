@@ -61,6 +61,19 @@ SDK::UPalCharacterImportanceManager* config::GetCharacterImpManager()
     return static_cast<SDK::UPalGameInstance*>(pGameInstance)->CharacterImportanceManager;
 }
 
+SDK::ULocalPlayer* config::GetLocalPlayer()
+{
+    SDK::UWorld* pWorld = Config.gWorld;
+    if (!pWorld)
+        return nullptr;
+
+    SDK::UGameInstance* pGameInstance = pWorld->OwningGameInstance;
+    if (!pGameInstance)
+        return nullptr;
+
+    return pGameInstance->LocalPlayers[0];
+}
+
 SDK::APalPlayerCharacter* config::GetPalPlayerCharacter()
 {
 
@@ -169,6 +182,12 @@ bool config::GetAllActorsofType(SDK::UClass* mType, std::vector<SDK::AActor*>* o
     {
         if (!pLevelsArray.IsValidIndex(i))
             continue;
+
+        SDK::ULevel* pLevel = pLevelsArray[i];
+        if (!pLevel && bLoopAllLevels)
+            continue;
+        else if (!pLevel && !bLoopAllLevels)
+            break;
 
         SDK::TArray<SDK::AActor*> pActorsArray = pLevelsArray[i]->Actors;
         __int32 actorsCount = pActorsArray.Count();

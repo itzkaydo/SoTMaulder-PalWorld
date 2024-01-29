@@ -18,6 +18,7 @@ public:
 	DWORD64 offset_CatchRate = 0x26AE100; //APalCaptureJudgeObject::ChallengeCapture
 	//check
 	bool IsESP = false;
+	bool IsFullbright = false;
 	bool IsAimbot = false;
 	bool IsSpeedHack = false;
 	bool IsAttackModiler = false;
@@ -32,10 +33,14 @@ public:
 	bool matchDbItems = true;
 	bool isDebugESP = false;
 	bool bisOpenManager = false;
-	bool filterPlayer = false;
 	bool bisRandomName = false;
 	bool bisTeleporter = false;
 	bool isCatchRate = false;
+	bool filterCharacters = true;
+	bool filterPlayer = false;
+	bool filterGuilds = false;
+	bool filterMapParts = false;
+	bool spec = false;
 	bool IsRevive = false;
 	float SpeedModiflers = 1.0f;
 	//def and value
@@ -75,6 +80,7 @@ public:
 	static SDK::UWorld* GetUWorld();
 	static SDK::UPalCharacterImportanceManager* GetCharacterImpManager();
 	static SDK::APalPlayerCharacter* GetPalPlayerCharacter(); 
+	static SDK::ULocalPlayer* GetLocalPlayer();
 	static SDK::APalPlayerController* GetPalPlayerController();
 	static SDK::APalPlayerState* GetPalPlayerState();
 	static SDK::UPalPlayerInventoryData* GetInventoryComponent();

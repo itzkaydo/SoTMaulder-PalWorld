@@ -235,6 +235,19 @@ void ExploitFly(bool IsFly)
 	IsFly ? pPalPlayerController->StartFlyToServer() : pPalPlayerController->EndFlyToServer();
 }
 
+void SetFullbright(bool bIsSet)
+{
+	ULocalPlayer* pLocalPlayer = Config.GetLocalPlayer();
+	if (!pLocalPlayer)
+		return;
+
+	UGameViewportClient* pViewport = pLocalPlayer->ViewportClient;
+	if (!pViewport)
+		return;
+
+	pViewport->mViewMode = bIsSet ? 1 : 3;
+}
+
 //	
 void SpeedHack(float mSpeed)
 {

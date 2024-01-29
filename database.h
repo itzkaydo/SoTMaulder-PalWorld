@@ -2062,7 +2062,7 @@ namespace database
 "Pan|Bread",
 "Cake|Cake",
 "CheeseBurger|Cheeseburger",
-"ChickenSaute|Chikipi Sauté",
+"ChickenSaute|Chikipi Saute",
 "Carbonara|Carbonara",
 "Meat_BerryGoat|Caprity Meat",
 "Meat_ChickenPal|Chikipi Poultry",

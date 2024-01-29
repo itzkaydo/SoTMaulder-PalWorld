@@ -2388,7 +2388,9 @@ public:
 	uint8                                        Pad_19E2[0xC];                                     // Fixing Size After Last Property  [ Dumper-7 ]
 	class UWorld*                                World;                                             // 0x78(0x8)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected)
 	class UGameInstance*                         GameInstance;                                      // 0x80(0x8)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected)
-	uint8                                        Pad_19E4[0x318];                                   // Fixing Size Of Struct [ Dumper-7 ]
+	unsigned char                                UnknownData_0QL4[0x28];							// 0x0088(0x0028) MISSED OFFSET (PADDING)
+	__int8									     mViewMode;											// 0x00B0(0x0001) 
+	unsigned char							     UnknownData_00B1[0x2EF];							// 0x00B1(0x02EF) MISSED OFFSET (PADDING)
 
 	static class UClass* StaticClass();
 	static class UGameViewportClient* GetDefaultObj();
