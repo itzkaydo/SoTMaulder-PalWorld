@@ -38,6 +38,7 @@ public:
 	bool bisRandomName = false;
 	bool bisTeleporter = false;
 	bool isCatchRate = false;
+	bool IsDeathAura = false;
 	bool filterCharacters = true;
 	bool filterPlayer = false;
 	bool filterGuilds = false;
@@ -47,6 +48,8 @@ public:
 	float SpeedModiflers = 1.0f;
 	//def and value
 	float mDebugESPDistance = 5.0f;
+	float mDeathAuraDistance = 10.f;
+	int mDeathAuraAmount = 1.f;
 	int DamageUp = 0;
 	int DefuseUp = 0;
 	int MaxWeight = 9999999;
@@ -103,6 +106,8 @@ public:
 	static SDK::APalPlayerState* GetPalPlayerState();
 	static SDK::UPalPlayerInventoryData* GetInventoryComponent();
 	static SDK::APalWeaponBase* GetPlayerEquippedWeapon();
+	static bool GetPartyPals(std::vector<SDK::AActor*>* outResult);
+	static bool GetPlayerDeathChests(std::vector<SDK::FVector>* outLocations);
 	static bool GetPartyPals(std::vector<SDK::AActor*> outResult);
 	static bool	GetTAllPlayers(SDK::TArray<class SDK::APalCharacter*>* outResult);
 	static bool	GetTAllImpNPC(SDK::TArray<class SDK::APalCharacter*>* outResult);

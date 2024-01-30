@@ -66,9 +66,12 @@ void ToggleCatchRate(bool catchrate) {
 }
 
 namespace DX11_Base {
+
+    //helper variables
     char inputBuffer_getFnAddr[100];
     char inputBuffer_getClass[100];
     char inputBuffer_setWaypoint[32];
+
     namespace Styles {
         void InitStyle()
         {
@@ -167,8 +170,8 @@ namespace DX11_Base {
 
             ImGui::Checkbox("Revive", &Config.IsRevive);
 
-            ImGui::Checkbox("Tele Mobs To Xhair", &Config.IsTeleportAllToXhair);
-            if (Config.IsTeleportAllToXhair)
+            if (ImGui::Checkbox("TELEPORT PALS TO XHAIR", &Config.IsTeleportAllToXhair) && !Config.IsTeleportAllToXhair)
+                Config.mDebugEntCapDistance = 10.f;
             {
                 ImGui::SameLine();
                 ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x);
@@ -584,6 +587,82 @@ namespace DX11_Base {
                     }
                 }
             }
+            if (ImGui::Button("All Technologies", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                SDK::APalPlayerCharacter* pPalCharacter = Config.GetPalPlayerCharacter();
+
+                if (!pPalCharacter)
+                    return;
+
+                auto Unlocked = pPalCharacter->GetPalPlayerController()->GetPalPlayerState()->TechnologyData->UnlockedTechnologyNameArray;
+
+                SDK::TArray<SDK::FName> mos = {};
+                SDK::UDataTableFunctionLibrary::GetDefaultObj()->GetDataTableRowNames(pPalCharacter->GetPalPlayerController()->GetPalPlayerState()->TechnologyData->TechnologyDataSet.RecipeUnlockDataTable, &mos);
+
+                for (int i = 0; i < Unlocked.Count(); i++) {
+                    g_Console->printdbg("[+] %s already unlocked\n", Console::Colors::green, Unlocked[i].GetRawString().c_str());
+                }
+
+                for (int i = 0; i < mos.Count(); i++) {
+                    bool skip = false;
+
+                    for (int j = 0; j < Unlocked.Count(); j++)
+                        if (mos[i].GetRawString() == Unlocked[j].GetRawString())
+                            skip = true;
+
+                    if (skip) continue;
+
+                    g_Console->printdbg("[+] Unlocking %s\n", Console::Colors::green, mos[i].GetRawString().c_str());
+                    pPalCharacter->GetPalPlayerController()->Transmitter->Player->RequestUnlockTechnology_ToServer(mos[i]);
+                }
+            }
+            if (ImGui::Button("Tech Books", ImVec2(130, 20))) {
+                SDK::APalPlayerCharacter* p_appc = Config.GetPalPlayerCharacter();
+                if (p_appc != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.GetPalPlayerCharacter()->GetPalPlayerController()->GetPalPlayerState() != NULL)
+                        {
+                            SDK::UPalPlayerInventoryData* InventoryData = Config.GetPalPlayerCharacter()->GetPalPlayerController()->GetPalPlayerState()->GetInventoryData();
+                            if (InventoryData != NULL)
+                                AddItemToInventoryByName(InventoryData, (char*)"TechnologyBook_G3", 50);
+                        }
+                    }
+                }
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("Use Books (1st Slot)", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20))) {
+                SDK::APalPlayerCharacter* p_appc = Config.GetPalPlayerCharacter();
+                if (p_appc != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        if (Config.GetPalPlayerCharacter()->GetPalPlayerController()->GetPalPlayerState() != NULL)
+                        {
+                            SDK::UPalPlayerInventoryData* InventoryData = Config.GetPalPlayerCharacter()->GetPalPlayerController()->GetPalPlayerState()->GetInventoryData();
+                            if (InventoryData != NULL) {
+                                SDK::UPalItemContainerMultiHelper* InventoryMultiHelper = InventoryData->InventoryMultiHelper;
+                                if (InventoryMultiHelper != NULL) {
+                                    SDK::TArray<class SDK::UPalItemContainer*> Containers = InventoryMultiHelper->Containers;
+                                    if (Containers.Count() == 0) {
+                                        return;
+                                    }
+
+                                    SDK::UPalItemSlot* FirstSlot = Containers[0]->Get(0);
+
+                                    if (FirstSlot != NULL)
+                                    {
+                                        SDK::FPalItemSlotId ID = FirstSlot->GetSlotId();
+                                        for (int i = 0; i < FirstSlot->GetStackCount(); i++)
+                                            Config.GetPalPlayerCharacter()->GetPalPlayerController()->GetPalPlayerState()->TechnologyData->RequestAddTechnologyPointByItem(ID);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
             if (ImGui::Button("All Effigies", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20))) //credit to bennett
             {
                 SDK::APalPlayerCharacter* pPalCharacter = Config.GetPalPlayerCharacter();
@@ -740,6 +819,20 @@ namespace DX11_Base {
                     }
                 }
             }
+            if (ImGui::Checkbox("DEATH AURA", &Config.IsDeathAura) && !Config.IsDeathAura)
+            {
+                Config.mDeathAuraDistance = 10.0f;
+                Config.mDeathAuraAmount = 1;
+            }
+            if (Config.IsDeathAura)
+            {
+                ImGui::SameLine();
+                ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x * .7);
+                ImGui::SliderFloat("##AURA_DISTANCE", &Config.mDeathAuraDistance, 1.0f, 100.f, "%.0f", ImGuiSliderFlags_AlwaysClamp);
+                ImGui::SameLine();
+                ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x);
+                ImGui::SliderInt("##AURA_DMG", &Config.mDeathAuraAmount, 1, 10, "%d", ImGuiSliderFlags_AlwaysClamp);
+            }
         }
         
         void TABConfig()
@@ -889,7 +982,8 @@ namespace DX11_Base {
         
         void TABDebug()
         {
-            ImGui::Checkbox("DEBUG ESP", &Config.isDebugESP);
+            if (ImGui::Checkbox("DEBUG ESP", &Config.isDebugESP) && !Config.isDebugESP)
+                Config.mDebugESPDistance = 10.f;
             if (Config.isDebugESP)
             {
                 ImGui::SameLine();
@@ -971,6 +1065,31 @@ namespace DX11_Base {
 
                     ImGui::EndChild();
                 }
+            }
+
+            if (ImGui::Button("PRINT ENGINE GLOBALS", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+
+                g_Console->printdbg("[+] [UNREAL ENGINE GLOBALS]\n"
+                    "UWorld:\t\t\t0x%llX\n"
+                    "ULocalPlayer:\t\t0x%llX\n"
+                    "APalPlayerController:\t0x%llX\n"
+                    "APalPlayerCharacter:\t0x%llX\n"
+                    "APalPlayerState:\t0x%llX\n"
+                    "UCharacterImpMan:\t0x%llX\n"
+                    "UPalPlayerInventory:\t0x%llX\n"
+                    "APalWeaponBase:\t\t0x%llX\n",
+                    Console::Colors::yellow,
+                    Config.gWorld,
+                    Config.GetLocalPlayer(),
+                    Config.GetPalPlayerController(),
+                    Config.GetPalPlayerCharacter(),
+                    Config.GetPalPlayerState(),
+                    Config.GetCharacterImpManager(),
+                    Config.GetInventoryComponent(),
+                    Config.GetPlayerEquippedWeapon()
+                );
+
             }
 
         }
@@ -1215,15 +1334,15 @@ namespace DX11_Base {
         auto draw_size = g_D3D11Window->pViewport->WorkSize;
         auto center = ImVec2({ draw_size.x * .5f, draw_size.y * .5f });
         auto top_center = ImVec2({ draw_size.x * .5f, draw_size.y * 0.0f });
-        
-        //  Watermark
-        ImDraw->AddText(top_center, g_Menu->dbg_RAINBOW, "SoTMaulder Palworld");
 
         if (Config.IsESP)
             ESP();
 
         if (Config.isDebugESP)
             ESP_DEBUG(Config.mDebugESPDistance);
+
+        if (Config.db_waypoints.size() > 0)
+            RenderWaypointsToScreen();
 
         ImGui::End();
 	}
@@ -1264,28 +1383,34 @@ namespace DX11_Base {
             SetPlayerDefenseParam(Config.DefuseUp);
 
         //
-        if (Config.db_waypoints.size() > 0)
-            RenderWaypointsToScreen();
-
-        //
         if (Config.IsTeleportAllToXhair)
             TeleportAllPalsToCrosshair(Config.mDebugEntCapDistance);
+        
+        //
+        if (Config.IsDeathAura)
+            DeathAura(Config.mDeathAuraAmount, Config.mDeathAuraDistance, true);
 
         //  
         if (Config.IsInfStamina)
             ResetStamina();
 
         //  
-        // if (Config.GetPalPlayerCharacter() != NULL)
+        if (Config.GetPalPlayerCharacter() != NULL)
         {
-            if (Config.GetPalPlayerCharacter()->ShooterComponent != NULL && Config.GetPalPlayerCharacter()->ShooterComponent->CanShoot())
+            if (Config.GetPalPlayerCharacter()->ShooterComponent != NULL && Config.GetPalPlayerCharacter()->ShooterComponent->GetHasWeapon() != NULL && Config.GetPalPlayerCharacter()->ShooterComponent->CanShoot())
             {
-                if (Config.GetPalPlayerCharacter()->ShooterComponent->GetHasWeapon() != NULL)
-                {
-                    Config.GetPalPlayerCharacter()->ShooterComponent->GetHasWeapon()->IsRequiredBullet = !Config.IsInfinAmmo;
-                }
+                Config.GetPalPlayerCharacter()->ShooterComponent->GetHasWeapon()->IsRequiredBullet = !Config.IsInfinAmmo;
             }
         }
-        //  SetDemiGodMode(Config.IsMuteki);
+
+        //
+        if (Config.IsMuteki)
+        {
+            if (Config.GetPalPlayerCharacter() && Config.GetPalPlayerCharacter()->CharacterParameterComponent && Config.GetPalPlayerCharacter()->CharacterParameterComponent->IndividualParameter)
+            {
+                if (Config.GetPalPlayerCharacter()->CharacterParameterComponent->IndividualParameter->GetHP().Value < INT_MAX)
+                    Config.GetPalPlayerCharacter()->ReviveCharacter_ToServer(SDK::FFixedPoint(INT_MAX));
+            }
+        }
     }
 }

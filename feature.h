@@ -60,3 +60,7 @@ void TeleportAllPalsToCrosshair(float mDistance);
 void AddWaypointLocation(std::string wpName);
 
 void RenderWaypointsToScreen();
+
+void SendDamageToActor(SDK::APalCharacter* pTarget, int32 damage, bool bSpoofAttacker = false);
+
+void DeathAura(__int32 dmgAmount, float mDistance, bool bIntensityEffect = false, bool bVisualEffect = false, SDK::EPalVisualEffectID visID = SDK::EPalVisualEffectID::None);

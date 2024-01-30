@@ -268,6 +268,71 @@ void SpeedHack(float mSpeed)
 	//	pWorldSettings->TimeDilation = mSpeed;
 }
 
+void SendDamageToActor(APalCharacter* pTarget, int32 damage, bool bSpoofAttacker)
+{
+	APalPlayerState* pPalPlayerState = Config.GetPalPlayerState();
+	APalPlayerCharacter* pPalPlayerCharacter = Config.GetPalPlayerCharacter();
+	if (!pPalPlayerState || !pPalPlayerCharacter)
+		return;
+
+	FPalDamageInfo  info = FPalDamageInfo();
+	info.AttackElementType = EPalElementType::Normal;
+	info.Attacker = pPalPlayerCharacter;		//	@TODO: spoof attacker
+	info.AttackerGroupID = Config.GetPalPlayerState()->IndividualHandleId.PlayerUId;
+	info.AttackerLevel = 50;
+	info.AttackType = EPalAttackType::Weapon;
+	info.bApplyNativeDamageValue = true;
+	info.bAttackableToFriend = true;
+	info.IgnoreShield = true;
+	info.NativeDamageValue = damage;
+	pPalPlayerState->SendDamage_ToServer(pTarget, info);
+}
+
+//	 NOTE: only targets pals
+void DeathAura(__int32 dmgAmount, float mDistance, bool bIntensityEffect, bool bVisualAffect, EPalVisualEffectID visID)
+{
+	APalCharacter* pPalCharacter = Config.GetPalPlayerCharacter();
+	if (!pPalCharacter)
+		return;
+
+	UPalCharacterParameterComponent* pParams = pPalCharacter->CharacterParameterComponent;
+	if (!pParams)
+		return;
+
+	APalCharacter* pPlayerPal = pParams->OtomoPal;
+
+	TArray<APalCharacter*> outPals;
+	if (!Config.GetTAllPals(&outPals))
+		return;
+
+	DWORD palsCount = outPals.Count();
+	for (auto i = 0; i < palsCount; i++)
+	{
+		APalCharacter* cEnt = outPals[i];
+
+		if (!cEnt || !cEnt->IsA(APalMonsterCharacter::StaticClass()) || cEnt == pPlayerPal)
+			continue;
+
+		float distanceTo = GetDistanceToActor(pPalCharacter, cEnt);
+		if (distanceTo > mDistance)
+			continue;
+
+		float dmgScalar = dmgAmount * (1.0f - distanceTo / mDistance);
+		if (bIntensityEffect)
+			dmgAmount = dmgScalar;
+
+		UPalVisualEffectComponent* pVisComp = cEnt->VisualEffectComponent;
+		if (bVisualAffect && pVisComp)
+		{
+			FPalVisualEffectDynamicParameter fvedp;
+			if (!pVisComp->ExecutionVisualEffects.Count())
+				pVisComp->AddVisualEffect_ToServer(visID, fvedp, 1);	//	uc: killer1478
+		}
+		SendDamageToActor(cEnt, dmgAmount);
+	}
+}
+
+
 //	
 void SetDemiGodMode(bool bIsSet)
 {
@@ -326,34 +391,27 @@ void ReviveLocalPlayer()
 void ResetStamina()
 {
 	APalPlayerCharacter* pPalCharacter = Config.GetPalPlayerCharacter();
-	if (!pPalCharacter)
-		return;
 
-	UPalCharacterParameterComponent* pParams = pPalCharacter->CharacterParameterComponent;
-	if (!pParams)
-		return;
-
-	pParams->ResetSP();
-
-
-	//	Reset Pal Stamina ??
-	TArray<APalCharacter*> outPals;
-	Config.GetTAllPals(&outPals);
-	DWORD palsSize = outPals.Count();
-	for (int i = 0; i < palsSize; i++)
+	if (pPalCharacter && pPalCharacter->CharacterParameterComponent)
 	{
-		APalCharacter* cPal = outPals[i];
-		if (!cPal || cPal->IsA(APalMonsterCharacter::StaticClass()))
-			continue;
+		pPalCharacter->CharacterParameterComponent->ResetSP();
+	}
 
-		UPalCharacterParameterComponent* pPalParams = pPalCharacter->CharacterParameterComponent;
-		if (!pPalParams)
-			return;
+	SDK::TArray<SDK::AActor*> Actors = Config.GetUWorld()->PersistentLevel->Actors;
 
-		pPalParams->ResetSP();
+	for (int i = 0; i < Actors.Count(); i++)
+	{
+		if (Actors[i] && Actors[i]->IsA(SDK::APalCharacter::StaticClass()))
+		{
+			SDK::APalCharacter* Character = static_cast<SDK::APalCharacter*>(Actors[i]);
+
+			if (Character->CharacterParameterComponent && Character->CharacterParameterComponent->IsOtomo())
+			{
+				Character->CharacterParameterComponent->ResetSP();
+			}
+		}
 	}
 }
-
 // credit xCENTx
 void ForgeActor(SDK::AActor* pTarget, float mDistance, float mHeight, float mAngle)
 {

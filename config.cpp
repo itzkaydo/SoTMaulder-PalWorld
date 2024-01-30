@@ -164,7 +164,13 @@ bool config::GetTAllPals(SDK::TArray<class SDK::APalCharacter*>* outResult)
     return true;
 }
 
-bool GetPartyPals(std::vector<SDK::AActor*> outResult)
+bool config::GetPartyPals(std::vector<SDK::AActor*>* outResult)
+{
+    return false;
+}
+
+//  @TODO:
+bool config::GetPlayerDeathChests(std::vector<SDK::FVector>* outLocations)
 {
     return false;
 }
